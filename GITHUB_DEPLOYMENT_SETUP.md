@@ -50,7 +50,7 @@ You need to set up the following secrets in your GitHub repository:
 ### Automatic Deployment
 Once you've set up the secrets, the deployment happens automatically:
 
-1. **Push to main branch**: Any push to the `main` branch triggers the deployment
+1. **Push to master branch**: Any push to the `master` branch triggers the deployment
 2. **Build process**: GitHub Actions builds your app with the environment variables
 3. **Deploy**: The built app is automatically deployed to GitHub Pages
 
@@ -110,7 +110,7 @@ You cannot view secret values after adding them, but you can:
 ## Next Steps
 
 1. ✅ Add all required secrets to your GitHub repository
-2. ✅ Push any changes to the main branch
+2. ✅ Push any changes to the master branch
 3. ✅ Monitor the Actions tab for successful deployment
 4. ✅ Test your live site at https://ecase.site
 
