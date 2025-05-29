@@ -27,7 +27,9 @@ app.use(express.urlencoded({ extended: true }));
 
 Cashfree.XClientId = process.env.REACT_APP_CASHFREE_APP_ID;
 Cashfree.XClientSecret = process.env.REACT_APP_CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment = isProduction ? Cashfree.Environment.PRODUCTION : Cashfree.Environment.SANDBOX;
+Cashfree.XEnvironment = (process.env.REACT_APP_CASHFREE_ENVIRONMENT === 'production') 
+    ? Cashfree.Environment.PRODUCTION 
+    : Cashfree.Environment.SANDBOX;
 
 function generateOrderId() {
     const uniqueId = crypto.randomBytes(16).toString('hex');
