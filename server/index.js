@@ -10,18 +10,24 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 8000;
 
+// More robust CORS configuration
+const isProduction = process.env.NODE_ENV === 'production' || process.env.PORT || process.env.RENDER;
+const allowedOrigins = isProduction 
+    ? ['https://ecase.site', 'https://rajyaabhishek.github.io'] 
+    : ['http://localhost:3000', 'http://localhost:3001'];
+
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' 
-        ? ['https://ecase.site', 'https://rajyaabhishek.github.io'] 
-        : 'http://localhost:3000',
-    credentials: true
+    origin: allowedOrigins,
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 Cashfree.XClientId = process.env.REACT_APP_CASHFREE_APP_ID;
 Cashfree.XClientSecret = process.env.REACT_APP_CASHFREE_SECRET_KEY;
-Cashfree.XEnvironment = Cashfree.Environment.SANDBOX;
+Cashfree.XEnvironment = isProduction ? Cashfree.Environment.PRODUCTION : Cashfree.Environment.SANDBOX;
 
 function generateOrderId() {
     const uniqueId = crypto.randomBytes(16).toString('hex');
@@ -60,10 +66,10 @@ app.all('/payment', async (req, res) => {
             "order_meta": {
                 "plan": plan,
                 "billing_cycle": billingCycle,
-                "return_url": process.env.NODE_ENV === 'production' 
+                "return_url": isProduction 
                     ? "https://ecase.site/return?order_id={order_id}" 
                     : "http://localhost:3000/return?order_id={order_id}",
-                "notify_url": process.env.NODE_ENV === 'production' 
+                "notify_url": isProduction 
                     ? `${process.env.REACT_APP_API_URL || 'https://ecase.onrender.com'}/webhook` 
                     : "http://localhost:8000/webhook"
             }
