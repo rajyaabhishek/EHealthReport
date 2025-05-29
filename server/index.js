@@ -42,6 +42,17 @@ app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
 
+// Temporary debug endpoint - REMOVE AFTER FIXING
+app.get('/debug-auth', (req, res) => {
+    res.json({
+        hasAppId: !!process.env.REACT_APP_CASHFREE_APP_ID,
+        hasSecretKey: !!process.env.REACT_APP_CASHFREE_SECRET_KEY,
+        environment: isProduction ? 'PRODUCTION' : 'SANDBOX',
+        appIdLength: process.env.REACT_APP_CASHFREE_APP_ID ? process.env.REACT_APP_CASHFREE_APP_ID.length : 0,
+        secretLength: process.env.REACT_APP_CASHFREE_SECRET_KEY ? process.env.REACT_APP_CASHFREE_SECRET_KEY.length : 0
+    });
+});
+
 // Handle both GET and POST requests for payment
 app.all('/payment', async (req, res) => {
     try {
