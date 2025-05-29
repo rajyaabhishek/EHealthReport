@@ -1,0 +1,72 @@
+{
+  "name": "myapp",
+  "homepage": "https://ecase.site",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@cashfreepayments/cashfree-js": "^1.0.5",
+    "@cashfreepayments/cashfree-sdk": "^0.1.7",
+    "@clerk/clerk-react": "^5.26.2",
+    "@google/generative-ai": "^0.24.1",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "buffer": "^6.0.3",
+    "cors": "^2.8.5",
+    "crypto-browserify": "^3.12.1",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^5.2.133",
+    "process": "^0.11.10",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-dropzone": "^14.3.8",
+    "react-pdf": "^9.2.1",
+    "react-scripts": "5.0.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "worker-loader": "^2.0.0"
+  },
+  "description": "Legal document processor that extracts case information and generates bookmarks for PDFs using AI technology.",
+  "main": "server.js",
+  "keywords": [
+    "legal",
+    "document",
+    "processor",
+    "pdf",
+    "ai",
+    "extraction",
+    "bookmarks"
+  ],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,306 @@
+.pdf-bookmark-container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.feature-description {
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+/* File Upload Section */
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.file-selection-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.file-upload-area {
+  width: 100%;
+  height: 180px;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  padding: 20px;
+  position: relative;
+  background-color: #f9fafc;
+}
+
+.file-upload-area:hover {
+  border-color: var(--primary-color);
+  background-color: #f1f5f9;
+}
+
+.file-upload-area.has-file {
+  border-style: solid;
+  border-color: var(--primary-color);
+  background-color: rgba(58, 80, 107, 0.05);
+}
+
+.file-icon {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.file-label {
+  text-align: center;
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.file-name {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  word-break: break-all;
+}
+
+.file-size {
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.bookmark-button {
+  width: 100%;
+  padding: 15px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.bookmark-button:hover:not(:disabled) {
+  background-color: #304a61;
+  /* transform: translateY(-2px); */
+}
+
+.bookmark-button:disabled {
+  background-color: #a0aec0;
+  cursor: not-allowed;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.loading-spinner {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.loading-container p {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+/* Results Styling */
+.results-container {
+  margin-top: 30px;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.results-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: white;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.download-button {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.download-button:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  /* transform: translateY(-2px); */
+}
+
+.document-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-label {
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+.info-value {
+  color: var(--text-color);
+}
+
+.bookmarks-container {
+  padding: 20px;
+}
+
+.bookmarks-container h4 {
+  color: var(--primary-color);
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.bookmarks-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bookmark-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.bookmark-item:hover {
+  background-color: #f8f9fa;
+}
+
+.bookmark-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bookmark-title i {
+  color: var(--primary-color);
+  width: 20px;
+  text-align: center;
+}
+
+.level-1 {
+  font-weight: 500;
+}
+
+.level-2 {
+  color: #4a5568;
+}
+
+.bookmark-page {
+  color: #64748b;
+  font-size: 0.9rem;
+  background-color: #f1f5f9;
+  padding: 3px 8px;
+  border-radius: 30px;
+}
+
+.error-message {
+  background-color: #fed7d7;
+  color: #e53e3e;
+  padding: 15px;
+  border-radius: var(--border-radius);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .results-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .header-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .download-button {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .bookmark-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .bookmark-page {
+    margin-left: 30px;
+  }
+} 
