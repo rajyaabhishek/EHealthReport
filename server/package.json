@@ -1,7 +1,11 @@
 {
-  "name": "server",
+  "name": "ecasefill-server",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
@@ -18,5 +22,5 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0"
   },
-  "description": ""
+  "description": "Backend server for ECaseFill legal document processor"
 }

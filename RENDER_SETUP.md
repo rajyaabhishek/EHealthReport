@@ -1,29 +1,40 @@
 # Render.com Deployment Setup Guide
 
-## 🚨 Current Issue: CORS Error Fixed
+## 🚨 IMPORTANT: Server Module Error Fix
 
-The CORS error you experienced has been **FIXED** by updating the server configuration to be more robust in detecting the production environment.
+If you're getting "Cannot find module 'express'" error, it means Render is using the wrong directory configuration.
 
-## 🔧 Render Environment Variables Setup
+## 🔧 Correct Render Service Configuration
 
-In your Render dashboard, make sure these environment variables are set:
+### Method 1: Set Root Directory (Recommended)
+1. **Repository**: `rajyaabhishek/ECaseFill`
+2. **Root Directory**: `server` ⚠️ **This is critical!**
+3. **Environment**: `Node`
+4. **Build Command**: `npm install`
+5. **Start Command**: `npm start`
 
-### Required Environment Variables:
+### Method 2: Alternative Commands (if Root Directory doesn't work)
+1. **Repository**: `rajyaabhishek/ECaseFill`
+2. **Root Directory**: (leave empty)
+3. **Environment**: `Node`
+4. **Build Command**: `cd server && npm install`
+5. **Start Command**: `cd server && npm start`
+
+## 🛠️ Required Environment Variables
+
+In your Render dashboard, set these environment variables:
+
 ```
 NODE_ENV=production
 PORT=10000
 REACT_APP_CASHFREE_APP_ID=your_cashfree_app_id
 REACT_APP_CASHFREE_SECRET_KEY=your_cashfree_secret_key
-REACT_APP_API_URL=https://ecase.onrender.com
+REACT_APP_API_URL=https://your-render-app-name.onrender.com
 ```
 
-## 📝 Render Service Configuration
+## 🚨 Current Issue: CORS Error Fixed
 
-1. **Repository**: `rajyaabhishek/ECaseFill`
-2. **Root Directory**: `server`
-3. **Environment**: `Node`
-4. **Build Command**: `npm install`
-5. **Start Command**: `npm start`
+The CORS error you experienced has been **FIXED** by updating the server configuration to be more robust in detecting the production environment.
 
 ## 🛠️ What Was Fixed
 
@@ -43,22 +54,25 @@ This now detects production in multiple ways:
 
 ## 🚀 Deploy Steps
 
-1. **Redeploy your server** on Render
-2. The new code will automatically allow:
+1. **Update Render Configuration** (use Method 1 or 2 above)
+2. **Add Environment Variables** 
+3. **Redeploy your server** on Render
+4. The new code will automatically allow:
    - `https://ecase.site`
    - `https://rajyaabhishek.github.io`
 
 ## ✅ Testing
 
-After redeployment, test the payment flow:
-1. Visit `https://ecase.site`
-2. Try making a payment
-3. The CORS error should be resolved
+After redeployment, test the backend:
+1. Visit `https://your-render-app-name.onrender.com/debug-auth`
+2. Try the payment flow at `https://ecase.site`
+3. The Express module error should be resolved
 
 ## 📋 Additional Fixes
 
 - ✅ Fixed manifest.json (removed missing logo192.png reference)
 - ✅ Updated Cashfree environment to auto-detect production
 - ✅ Added more robust CORS headers
+- ✅ Added Node.js version specification in package.json
 
 Your payment integration should now work seamlessly between GitHub Pages and Render! 🎉 
