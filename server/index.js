@@ -15,7 +15,7 @@ const isProduction = process.env.NODE_ENV === 'production' || process.env.PORT |
 
 // Comprehensive list of allowed origins
 const allowedOrigins = [
-    'https://ecase.site',
+    'https://ehealthreport.site',
     'https://rajyaabhishek.github.io',
     'http://localhost:3000',
     'http://localhost:3001',
@@ -106,7 +106,7 @@ app.all('/payment', async (req, res) => {
                 "plan": plan,
                 "billing_cycle": billingCycle,
                 "return_url": isProduction 
-                    ? "https://ecase.site/return?order_id={order_id}" 
+                    ? "https://ehealthreport.site/return?order_id={order_id}" 
                     : "http://localhost:3000/return?order_id={order_id}",
                 "notify_url": isProduction 
                     ? `${process.env.REACT_APP_API_URL || 'https://ecase.onrender.com'}/webhook` 
