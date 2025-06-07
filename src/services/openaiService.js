@@ -135,7 +135,17 @@ For each party (appellant/petitioner and respondent):
 - Locate specific amounts, properties, or assets involved
 - Extract all cited legal provisions with exact act names and section numbers
 
-**STEP 5: Decision Analysis**
+**STEP 5: Health Report Analysis (if document contains health/medical data)**
+- Extract test names, lab information, and report dates
+- Identify patient demographics (age, gender)
+- Analyze test parameters with values and reference ranges (keep VERY concise)
+- Generate health insights and recommendations
+- Identify critical values requiring medical attention
+- Provide demographic-specific interpretations
+- **IMPORTANT**: Format all medical recommendations and treatment suggestions as bullet points using • symbol, each recommendation on a new line
+- **HEALTH INDICATORS**: Keep referenceRange as one word (e.g., "absent", "normal", "70-100") and interpretation as single word (Low/Normal/High/Borderline)
+
+**STEP 6: Decision Analysis**
 - Summarize the court's reasoning and judgment
 - Identify the final outcome and relief granted
 
@@ -145,89 +155,58 @@ For each party (appellant/petitioner and respondent):
 - Distinguish clearly between different parties
 - Be precise about legal terminology and classifications
 - If information is ambiguous, note the ambiguity rather than guessing
+- **FORMAT MEDICAL RECOMMENDATIONS AND TREATMENT SUGGESTIONS AS BULLET POINTS**: Each recommendation should start with • symbol and be on a separate line
+- **KEEP HEALTH INDICATORS CONCISE**: referenceRange should be one word or very short (e.g., "absent", "normal", "70-100"), interpretation should be single word (Low/Normal/High/Borderline)
 
 **OUTPUT FORMAT:**
 Return results in this exact JSON structure with maximum accuracy:
 
 {
-  "caseBasicDetails": {
-    "district": "[Extract exact district name]",
-    "establishment": "[Extract exact court establishment name]",
-    "caseType": "[Extract specific case type]",
-    "reliefSought": "[Extract specific relief mentioned]",
-    "caseTypeSpecific": "[Extract sub-category of case type]",
-    "subCourt": "[Extract sub-court if mentioned]",
-    "subDistCourt": "[Extract sub-district court if applicable]",
-    "subEstablishment": "[Extract sub-establishment if mentioned]",
-    "subCaseType": "[Extract detailed case sub-type]",
-    "caseNumber": "[Extract exact case number with format]",
-    "caseYear": "[Extract case year]",
-    "decisionDate": "[Extract decision date in YYYY-MM-DD format]",
-    "appliedDate": "[Extract application/filing date in YYYY-MM-DD format]",
-    "receivedDate": "[Extract received date in YYYY-MM-DD format]",
-    "partyName": "[Extract primary party name]",
-    "partyMobile": "[Extract contact number if available]"
+  "reportSummary": {
+    "testName": "[Extract specific test name(s) performed]",
+    "reportDate": "[Extract report generation date in YYYY-MM-DD format]",
+    "labName": "[Extract laboratory or healthcare facility name]",
+    "patientAge": "[Extract patient age or calculate from DOB]",
+    "patientGender": "[Extract patient gender]"
   },
-  "appellantDetails": {
-    "type": "[Individual/Organization/Government etc.]",
-    "salutation": "[Mr./Ms./Dr./Shri etc.]",
-    "name": "[Complete name as written]",
-    "gender": "[Male/Female/Other if identifiable]",
-    "fatherFlag": "[Yes/No - if father's name is mentioned]",
-    "fatherName": "[Complete father's name]",
-    "dob": "[Date of birth in YYYY-MM-DD if available]",
-    "age": "[Age in years]",
-    "caste": "[Caste if mentioned]",
-    "extraCount": "[Number of additional appellants]",
-    "email": "[Email address if available]",
-    "mobile": "[Mobile number if available]",
-    "occupation": "[Profession/occupation]",
-    "address": "[Complete address as written]",
-    "pincode": "[PIN code if available]",
-    "state": "[State name]",
-    "district": "[District name]"
-  },
-  "respondentDetails": {
-    "type": "[Individual/Organization/Government etc.]",
-    "salutation": "[Mr./Ms./Dr./Shri etc.]",
-    "name": "[Complete name as written]",
-    "gender": "[Male/Female/Other if identifiable]",
-    "fatherFlag": "[Yes/No - if father's name is mentioned]",
-    "fatherName": "[Complete father's name]",
-    "dob": "[Date of birth in YYYY-MM-DD if available]",
-    "age": "[Age in years]",
-    "caste": "[Caste if mentioned]",
-    "extraCount": "[Number of additional respondents]",
-    "email": "[Email address if available]",
-    "mobile": "[Mobile number if available]",
-    "occupation": "[Profession/occupation]",
-    "address": "[Complete address as written]",
-    "pincode": "[PIN code if available]",
-    "state": "[State name]",
-    "district": "[District name]"
-  },
-  "factsDetails": {
-    "factDate": "[Key incident date in YYYY-MM-DD format]",
-    "factTime": "[Time if mentioned in HH:MM format]",
-    "facts": "[Comprehensive summary of key facts in chronological order]"
-  },
-  "caseDetails": {
-    "causeOfAction": "[Specific legal cause of action]",
-    "offenseDate": "[Date of alleged offense in YYYY-MM-DD format]",
-    "subject": "[Subject matter of the case]",
-    "reliefOffense": "[Type of relief or offense category]",
-    "amount": "[Monetary amount involved if any]",
-    "registeredPlace": "[true/false - if place of registration is mentioned]",
-    "stateId": "[State identifier/code]",
-    "districtCode": "[District code if available]"
-  },
-  "legalProvisions": [
+  "keyHealthIndicators": [
     {
-      "act": "[Exact name of the Act]",
-      "sections": ["[Section numbers as array]"]
+      "parameterName": "[e.g., Fasting Blood Sugar, HDL, WBC count]",
+      "value": "[Your actual value with units]",
+      "referenceRange": "[One word or very short range like 'absent', '70-100', 'normal']",
+      "interpretation": "[One word status: Low, Normal, High, Borderline]",
+      "severity": "[Normal, Borderline, Critical, Alert]"
     }
   ],
-  "judgmentSummary": "[Detailed summary of the court's decision, reasoning, and final outcome]"
+  "aiGeneratedInsights": {
+    "explanations": "[Simplified explanation of the parameters and results - e.g., Your HDL is slightly low, which can affect heart health]",
+    "potentialCauses": "[e.g., Poor diet, sedentary lifestyle, dehydration, stress]",
+    "interParameterRelationships": "[How different values relate to each other - e.g., high glucose + low HDL = metabolic syndrome risk]"
+  },
+  "medicalRecommendations": {
+    "preventionTips": "[General health tips to prevent worsening - Format as bullet points using • symbol, each on new line]",
+    "lifestyleModifications": "[Diet, Exercise, Sleep, Stress Management recommendations - Format as bullet points using • symbol, each on new line]",
+    "homeRemedies": "[Home remedies if applicable - Format as bullet points using • symbol, each on new line]",
+    "mentalWellness": "[Mental wellness suggestions - Format as bullet points using • symbol, each on new line]"
+  },
+  "treatmentSuggestions": {
+    "doctorActions": "[e.g., Consult an endocrinologist for thyroid imbalance - Format as bullet points using • symbol, each on new line]",
+    "suggestedMedications": "[Only if part of uploaded report - Format as bullet points using • symbol, each on new line]",
+    "followUpTests": "[Recommended future tests or time to re-check - Format as bullet points using • symbol, each on new line]"
+  },
+ 
+  "criticalAlertSystem": {
+    "redFlagIndicators": "[Values requiring immediate medical attention]",
+    "emergencyContacts": "[When to call doctor vs. go to ER]",
+    "urgencyTimeline": "[See doctor within 24 hours vs Schedule appointment this week]"
+  },
+  "demographicInterpretations": {
+    "ageAdjustedRanges": "[Different normals for children, adults, elderly]",
+    "genderSpecificAnalysis": "[Hormonal considerations, pregnancy factors]",
+    "ethnicityConsiderations": "[Some conditions have different prevalence rates]",
+    "specialPopulations": "[Diabetics, pregnant women, athletes, etc.]"
+  },
+  "healthSummary": "[Comprehensive health summary in plain language + technical details for sharing with doctors]"
 }
 
 **IMPORTANT:** Use "Not Found" only when information is definitively absent. If information exists but is unclear, provide the best interpretation with a note about ambiguity.`;
@@ -235,7 +214,6 @@ Return results in this exact JSON structure with maximum accuracy:
         try {
           const extractionResult = await this.model.generateContent(extractionPrompt);
           const extractionContent = extractionResult.response.text();
-          console.log("Extraction API Response:", extractionContent);
           
           try {
             // Extract JSON from the response
@@ -251,96 +229,57 @@ Return results in this exact JSON structure with maximum accuracy:
               
               // Apply default "Not Found" values to any missing fields
               const defaultStructure = {
-                caseBasicDetails: {
-                  district: "Not Found",
-                  establishment: "Not Found",
-                  caseType: "Not Found",
-                  reliefSought: "Not Found",
-                  caseTypeSpecific: "Not Found",
-                  subCourt: "Not Found",
-                  subDistCourt: "Not Found",
-                  subEstablishment: "Not Found",
-                  subCaseType: "Not Found",
-                  caseNumber: "Not Found",
-                  caseYear: "Not Found",
-                  decisionDate: "Not Found",
-                  appliedDate: "Not Found",
-                  receivedDate: "Not Found",
-                  partyName: "Not Found",
-                  partyMobile: "Not Found"
+                reportSummary: {
+                  testName: "Not Found",
+                  reportDate: "Not Found",
+                  labName: "Not Found",
+                  patientAge: "Not Found",
+                  patientGender: "Not Found"
                 },
-                appellantDetails: {
-                  type: "Not Found",
-                  salutation: "Not Found",
-                  name: "Not Found",
-                  gender: "Not Found",
-                  fatherFlag: "Not Found",
-                  fatherName: "Not Found",
-                  dob: "Not Found",
-                  age: "Not Found",
-                  caste: "Not Found",
-                  extraCount: "Not Found",
-                  email: "Not Found",
-                  mobile: "Not Found",
-                  occupation: "Not Found",
-                  address: "Not Found",
-                  pincode: "Not Found",
-                  state: "Not Found",
-                  district: "Not Found"
+                keyHealthIndicators: [],
+                aiGeneratedInsights: {
+                  explanations: "Not Found",
+                  potentialCauses: "Not Found",
+                  interParameterRelationships: "Not Found"
                 },
-                respondentDetails: {
-                  type: "Not Found",
-                  salutation: "Not Found",
-                  name: "Not Found",
-                  gender: "Not Found",
-                  fatherFlag: "Not Found",
-                  fatherName: "Not Found",
-                  dob: "Not Found",
-                  age: "Not Found",
-                  caste: "Not Found",
-                  extraCount: "Not Found",
-                  email: "Not Found",
-                  mobile: "Not Found",
-                  occupation: "Not Found",
-                  address: "Not Found",
-                  pincode: "Not Found",
-                  state: "Not Found",
-                  district: "Not Found"
+                medicalRecommendations: {
+                  preventionTips: "Not Found",
+                  lifestyleModifications: "Not Found",
+                  homeRemedies: "Not Found",
+                  mentalWellness: "Not Found"
                 },
-                factsDetails: {
-                  factDate: "Not Found",
-                  factTime: "Not Found",
-                  facts: "Not Found"
+                treatmentSuggestions: {
+                  doctorActions: "Not Found",
+                  suggestedMedications: "Not Found",
+                  followUpTests: "Not Found"
                 },
-                caseDetails: {
-                  causeOfAction: "Not Found",
-                  offenseDate: "Not Found",
-                  subject: "Not Found",
-                  reliefOffense: "Not Found",
-                  amount: "Not Found",
-                  registeredPlace: false,
-                  stateId: "Not Found",
-                  districtCode: "Not Found"
+              
+                criticalAlertSystem: {
+                  redFlagIndicators: "Not Found",
+                  emergencyContacts: "Not Found",
+                  urgencyTimeline: "Not Found"
                 },
-                legalProvisions: [
-                  {
-                    act: "Not Found",
-                    sections: ["Not Found"]
-                  }
-                ],
-                judgmentSummary: "Not Found"
+                demographicInterpretations: {
+                  ageAdjustedRanges: "Not Found",
+                  genderSpecificAnalysis: "Not Found",
+                  ethnicityConsiderations: "Not Found",
+                  specialPopulations: "Not Found"
+                },
+                healthSummary: "Not Found"
               };
               
               // Merge with default structure to ensure all fields exist
               results.extractedData = {
                 ...defaultStructure,
                 ...extractedData,
-                caseBasicDetails: { ...defaultStructure.caseBasicDetails, ...(extractedData.caseBasicDetails || {}) },
-                appellantDetails: { ...defaultStructure.appellantDetails, ...(extractedData.appellantDetails || {}) },
-                respondentDetails: { ...defaultStructure.respondentDetails, ...(extractedData.respondentDetails || {}) },
-                factsDetails: { ...defaultStructure.factsDetails, ...(extractedData.factsDetails || {}) },
-                caseDetails: { ...defaultStructure.caseDetails, ...(extractedData.caseDetails || {}) },
-                legalProvisions: extractedData.legalProvisions || defaultStructure.legalProvisions
+                reportSummary: { ...defaultStructure.reportSummary, ...(extractedData.reportSummary || {}) },
+                keyHealthIndicators: extractedData.keyHealthIndicators || defaultStructure.keyHealthIndicators,
+                aiGeneratedInsights: { ...defaultStructure.aiGeneratedInsights, ...(extractedData.aiGeneratedInsights || {}) },
+                medicalRecommendations: { ...defaultStructure.medicalRecommendations, ...(extractedData.medicalRecommendations || {}) },
+                treatmentSuggestions: { ...defaultStructure.treatmentSuggestions, ...(extractedData.treatmentSuggestions || {}) },
+                riskPrediction: { ...defaultStructure.riskPrediction, ...(extractedData.riskPrediction || {}) },
+                criticalAlertSystem: { ...defaultStructure.criticalAlertSystem, ...(extractedData.criticalAlertSystem || {}) },
+                demographicInterpretations: { ...defaultStructure.demographicInterpretations, ...(extractedData.demographicInterpretations || {}) }
               };
             } else {
               // If no JSON found, use default structure
@@ -462,7 +401,6 @@ Return only the JSON array of bookmarks, ensuring complete coverage of the docum
         try {
           const bookmarkResult = await this.model.generateContent(bookmarkPrompt);
           const bookmarkContent = bookmarkResult.response.text();
-          console.log("Bookmarking API Response:", bookmarkContent);
           
           try {
             // Extract JSON from the response
@@ -472,10 +410,55 @@ Return only the JSON array of bookmarks, ensuring complete coverage of the docum
                             bookmarkContent.match(/\{([\s\S]*?)\}/);
             
             if (jsonMatch) {
-              const jsonStr = jsonMatch[0].startsWith('[') ? jsonMatch[0] : '[' + jsonMatch[1] + ']';
+              let jsonStr = jsonMatch[0];
+              
+              // Handle case where we get a single object instead of array
+              if (jsonStr.startsWith('{')) {
+                jsonStr = '[' + jsonStr + ']';
+              }
+              
+              // Ensure we have brackets
+              if (!jsonStr.startsWith('[')) {
+                jsonStr = '[' + jsonStr + ']';
+              }
+              
               // Clean up the JSON string
               const cleanedJsonStr = this.cleanJsonString(jsonStr);
-              results.bookmarkData = JSON.parse(cleanedJsonStr);
+              
+              let parsedBookmarks = JSON.parse(cleanedJsonStr);
+              
+              // Handle nested arrays - flatten if needed
+              if (Array.isArray(parsedBookmarks) && parsedBookmarks.length === 1 && Array.isArray(parsedBookmarks[0])) {
+                parsedBookmarks = parsedBookmarks[0];
+              }
+              
+              // Ensure we have an array of bookmark objects
+              if (!Array.isArray(parsedBookmarks)) {
+                parsedBookmarks = [parsedBookmarks];
+              }
+              
+              // Validate bookmark structure and add missing fields
+              parsedBookmarks = parsedBookmarks.map((bookmark, index) => {
+                if (!bookmark || typeof bookmark !== 'object') {
+                  return {
+                    title: `Section ${index + 1}`,
+                    level: 1,
+                    page: 1,
+                    startPage: 1,
+                    endPage: 1
+                  };
+                }
+                
+                return {
+                  title: bookmark.title || `Section ${index + 1}`,
+                  level: bookmark.level || 1,
+                  page: bookmark.page || bookmark.startPage || 1,
+                  startPage: bookmark.startPage || bookmark.page || 1,
+                  endPage: bookmark.endPage || bookmark.startPage || bookmark.page || 1
+                };
+              });
+              
+              results.bookmarkData = parsedBookmarks;
             } else {
               // If no valid JSON found, use fallback bookmarks
               results.bookmarkData = [
@@ -484,6 +467,7 @@ Return only the JSON array of bookmarks, ensuring complete coverage of the docum
             }
           } catch (parseError) {
             console.error("Error parsing bookmark response:", parseError);
+            
             // Provide a basic fallback bookmark
             results.bookmarkData = [
               { title: "Document Start", level: 1, page: 1, startPage: 1, endPage: 1 }
@@ -491,6 +475,7 @@ Return only the JSON array of bookmarks, ensuring complete coverage of the docum
           }
         } catch (apiError) {
           console.error("Error calling Gemini API for bookmarks:", apiError);
+          
           results.bookmarkData = [
             { title: "Document Start", level: 1, page: 1, startPage: 1, endPage: 1 }
           ];
@@ -507,84 +492,43 @@ Return only the JSON array of bookmarks, ensuring complete coverage of the docum
   // Helper method to get default structure
   getDefaultStructure() {
     return {
-      caseBasicDetails: {
-        district: "Not Found",
-        establishment: "Not Found",
-        caseType: "Not Found",
-        reliefSought: "Not Found",
-        caseTypeSpecific: "Not Found",
-        subCourt: "Not Found",
-        subDistCourt: "Not Found",
-        subEstablishment: "Not Found",
-        subCaseType: "Not Found",
-        caseNumber: "Not Found",
-        caseYear: "Not Found",
-        decisionDate: "Not Found",
-        appliedDate: "Not Found",
-        receivedDate: "Not Found",
-        partyName: "Not Found",
-        partyMobile: "Not Found"
+      reportSummary: {
+        testName: "Not Found",
+        reportDate: "Not Found",
+        labName: "Not Found",
+        patientAge: "Not Found",
+        patientGender: "Not Found"
       },
-      appellantDetails: {
-        type: "Not Found",
-        salutation: "Not Found",
-        name: "Not Found",
-        gender: "Not Found",
-        fatherFlag: "Not Found",
-        fatherName: "Not Found",
-        dob: "Not Found",
-        age: "Not Found",
-        caste: "Not Found",
-        extraCount: "Not Found",
-        email: "Not Found",
-        mobile: "Not Found",
-        occupation: "Not Found",
-        address: "Not Found",
-        pincode: "Not Found",
-        state: "Not Found",
-        district: "Not Found"
+      keyHealthIndicators: [],
+      aiGeneratedInsights: {
+        explanations: "Not Found",
+        potentialCauses: "Not Found",
+        interParameterRelationships: "Not Found"
       },
-      respondentDetails: {
-        type: "Not Found",
-        salutation: "Not Found",
-        name: "Not Found",
-        gender: "Not Found",
-        fatherFlag: "Not Found",
-        fatherName: "Not Found",
-        dob: "Not Found",
-        age: "Not Found",
-        caste: "Not Found",
-        extraCount: "Not Found",
-        email: "Not Found",
-        mobile: "Not Found",
-        occupation: "Not Found",
-        address: "Not Found",
-        pincode: "Not Found",
-        state: "Not Found",
-        district: "Not Found"
+      medicalRecommendations: {
+        preventionTips: "Not Found",
+        lifestyleModifications: "Not Found",
+        homeRemedies: "Not Found",
+        mentalWellness: "Not Found"
       },
-      factsDetails: {
-        factDate: "Not Found",
-        factTime: "Not Found",
-        facts: "Not Found"
+      treatmentSuggestions: {
+        doctorActions: "Not Found",
+        suggestedMedications: "Not Found",
+        followUpTests: "Not Found"
       },
-      caseDetails: {
-        causeOfAction: "Not Found",
-        offenseDate: "Not Found",
-        subject: "Not Found",
-        reliefOffense: "Not Found",
-        amount: "Not Found",
-        registeredPlace: false,
-        stateId: "Not Found",
-        districtCode: "Not Found"
+      
+      criticalAlertSystem: {
+        redFlagIndicators: "Not Found",
+        emergencyContacts: "Not Found",
+        urgencyTimeline: "Not Found"
       },
-      legalProvisions: [
-        {
-          act: "Not Found",
-          sections: ["Not Found"]
-        }
-      ],
-      judgmentSummary: "Not Found"
+      demographicInterpretations: {
+        ageAdjustedRanges: "Not Found",
+        genderSpecificAnalysis: "Not Found",
+        ethnicityConsiderations: "Not Found",
+        specialPopulations: "Not Found"
+      },
+      healthSummary: "Not Found"
     };
   }
 }

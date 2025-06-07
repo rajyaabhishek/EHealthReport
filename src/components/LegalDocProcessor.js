@@ -29,41 +29,43 @@ const LegalDocProcessor = () => {
   const [editableBookmarks, setEditableBookmarks] = useState(null);
   const [currentCredits, setCurrentCredits] = useState(0);
   const [requiredCredits, setRequiredCredits] = useState(0);
+  const [isLoadingSession, setIsLoadingSession] = useState(true);
 
   // Create an instance of OpenAIService
   const openaiService = new OpenAIService();
 
   // Load data from session storage
   useEffect(() => {
-    // Check for processor mode
-    const mode = window.sessionStorage.getItem('processorMode');
-    if (mode) {
-      setProcessorMode(mode);
-      
-      // Set inspection mode if mode is 'inspect'
-      if (mode === 'inspect') {
-        setInspectionMode(true);
-      }
-      
-      // If mode is 'download', trigger download immediately
-      if (mode === 'download') {
-        const storedBookmarkData = window.sessionStorage.getItem('bookmarkData');
-        if (storedBookmarkData) {
-          setBookmarkData(JSON.parse(storedBookmarkData));
+    const loadSessionData = async () => {
+      // Check for processor mode
+      const mode = window.sessionStorage.getItem('processorMode');
+      if (mode) {
+        setProcessorMode(mode);
+        
+        // Set inspection mode if mode is 'inspect'
+        if (mode === 'inspect') {
+          setInspectionMode(true);
         }
+        
+        // If mode is 'download', trigger download immediately
+        if (mode === 'download') {
+          const storedBookmarkData = window.sessionStorage.getItem('bookmarkData');
+          if (storedBookmarkData) {
+            setBookmarkData(JSON.parse(storedBookmarkData));
+          }
+        }
+        
+        // Clear the mode after reading
+        window.sessionStorage.removeItem('processorMode');
       }
       
-      // Clear the mode after reading
-      window.sessionStorage.removeItem('processorMode');
-    }
-    
-    // Check for PDF blob URL
-    const pdfBlobUrl = window.sessionStorage.getItem('pdfBlobUrl');
-    if (pdfBlobUrl) {
-      // Fetch the file from the blob URL
-      fetch(pdfBlobUrl)
-        .then(response => response.blob())
-        .then(blob => {
+      // Check for PDF blob URL and load it first
+      const pdfBlobUrl = window.sessionStorage.getItem('pdfBlobUrl');
+      if (pdfBlobUrl) {
+        try {
+          // Fetch the file from the blob URL
+          const response = await fetch(pdfBlobUrl);
+          const blob = await response.blob();
           const fileName = window.sessionStorage.getItem('pdfFileName') || 'document.pdf';
           const fileSize = window.sessionStorage.getItem('pdfFileSize') || 0;
           
@@ -77,90 +79,54 @@ const LegalDocProcessor = () => {
           window.sessionStorage.removeItem('pdfBlobUrl');
           window.sessionStorage.removeItem('pdfFileName');
           window.sessionStorage.removeItem('pdfFileSize');
-        })
-        .catch(err => {
+        } catch (err) {
           console.error('Error fetching PDF from blob URL:', err);
           showErrorAlert('Failed to load the PDF file. Please try uploading again.');
-        });
-    }
+        }
+      }
+    };
+
+    loadSessionData();
     
     // Initialize default data structure
     const defaultData = {
-      caseBasicDetails: {
-        district: '',
-        establishment: '',
-        caseType: '',
-        reliefSought: '',
-        caseTypeSpecific: '',
-        subCourt: '',
-        subDistCourt: '',
-        subEstablishment: '',
-        subCaseType: '',
-        caseNumber: '',
-        caseYear: '',
-        decisionDate: '',
-        appliedDate: '',
-        receivedDate: '',
-        partyName: '',
-        partyMobile: '',
+      reportSummary: {
+        testName: '',
+        reportDate: '',
+        labName: '',
+        patientAge: '',
+        patientGender: '',
       },
-      appellantDetails: {
-        type: '',
-        salutation: '',
-        name: '',
-        gender: '',
-        fatherFlag: '',
-        fatherName: '',
-        dob: '',
-        age: '',
-        caste: '',
-        extraCount: '',
-        email: '',
-        mobile: '',
-        occupation: '',
-        address: '',
-        pincode: '',
-        state: '',
-        district: '',
+      keyHealthIndicators: [],
+      aiGeneratedInsights: {
+        explanations: '',
+        potentialCauses: '',
+        interParameterRelationships: '',
       },
-      respondentDetails: {
-        type: '',
-        salutation: '',
-        name: '',
-        gender: '',
-        fatherFlag: '',
-        fatherName: '',
-        dob: '',
-        age: '',
-        caste: '',
-        extraCount: '',
-        email: '',
-        mobile: '',
-        occupation: '',
-        address: '',
-        pincode: '',
-        state: '',
-        district: '',
+      medicalRecommendations: {
+        preventionTips: '',
+        lifestyleModifications: '',
+        homeRemedies: '',
+        mentalWellness: '',
       },
-      factsDetails: {
-        factDate: '',
-        factTime: '',
-        facts: '',
+      treatmentSuggestions: {
+        doctorActions: '',
+        suggestedMedications: '',
+        followUpTests: '',
       },
-      caseDetails: {
-        causeOfAction: '',
-        offenseDate: '',
-        subject: '',
-        reliefOffense: '',
-        amount: '',
-        registeredPlace: false,
-        stateId: '',
-        districtCode: '',
+      
+      criticalAlertSystem: {
+        redFlagIndicators: '',
+        emergencyContacts: '',
+        urgencyTimeline: '',
       },
-      legalProvisions: [
-        { act: '', sections: [] }
-      ],
-      judgmentSummary: ''
+      demographicInterpretations: {
+        ageAdjustedRanges: '',
+        genderSpecificAnalysis: '',
+        ethnicityConsiderations: '',
+        specialPopulations: '',
+      },
+      healthSummary: ''
     };
     
     // Check for extracted data
@@ -173,23 +139,35 @@ const LegalDocProcessor = () => {
         const completeData = {
           ...defaultData,
           ...parsedData,
-          caseBasicDetails: {
-            ...defaultData.caseBasicDetails,
-            ...(parsedData.caseBasicDetails || {})
+          reportSummary: {
+            ...defaultData.reportSummary,
+            ...(parsedData.reportSummary || {})
           },
-          appellantDetails: {
-            ...defaultData.appellantDetails,
-            ...(parsedData.appellantDetails || {})
+          keyHealthIndicators: parsedData.keyHealthIndicators || defaultData.keyHealthIndicators,
+          aiGeneratedInsights: {
+            ...defaultData.aiGeneratedInsights,
+            ...(parsedData.aiGeneratedInsights || {})
           },
-          respondentDetails: {
-            ...defaultData.respondentDetails,
-            ...(parsedData.respondentDetails || {})
+          medicalRecommendations: {
+            ...defaultData.medicalRecommendations,
+            ...(parsedData.medicalRecommendations || {})
           },
-          factsDetails: {
-            ...defaultData.factsDetails,
-            ...(parsedData.factsDetails || {})
+          treatmentSuggestions: {
+            ...defaultData.treatmentSuggestions,
+            ...(parsedData.treatmentSuggestions || {})
           },
-          legalProvisions: parsedData.legalProvisions || defaultData.legalProvisions
+          riskPrediction: {
+            ...defaultData.riskPrediction,
+            ...(parsedData.riskPrediction || {})
+          },
+          criticalAlertSystem: {
+            ...defaultData.criticalAlertSystem,
+            ...(parsedData.criticalAlertSystem || {})
+          },
+          demographicInterpretations: {
+            ...defaultData.demographicInterpretations,
+            ...(parsedData.demographicInterpretations || {})
+          }
         };
         
         setExtractedData(completeData);
@@ -221,6 +199,9 @@ const LegalDocProcessor = () => {
         console.error('Error parsing bookmark data:', err);
       }
     }
+    
+    // Mark session loading as complete
+    setIsLoadingSession(false);
   }, []);
 
   // Effect to trigger download if mode is 'download'
@@ -397,25 +378,22 @@ const LegalDocProcessor = () => {
     
     const newData = { ...editableData };
     
-    if (section === 'caseBasicDetails') {
-      newData.caseBasicDetails = { ...newData.caseBasicDetails, [field]: value };
-    } else if (section === 'appellantDetails') {
-      newData.appellantDetails = { ...newData.appellantDetails, [field]: value };
-    } else if (section === 'respondentDetails') {
-      newData.respondentDetails = { ...newData.respondentDetails, [field]: value };
-    } else if (section === 'factsDetails') {
-      newData.factsDetails = { ...newData.factsDetails, [field]: value };
-    } else if (section === 'legalProvisions' && Array.isArray(newData.legalProvisions)) {
-      // For legal provisions, we need to handle the array structure
-      const [index, subfield] = field.split('.');
-      if (subfield === 'act') {
-        newData.legalProvisions[index].act = value;
-      } else if (subfield === 'sections') {
-        // Split comma-separated sections
-        newData.legalProvisions[index].sections = value.split(',').map(s => s.trim());
-      }
-    } else if (section === 'judgmentSummary') {
-      newData.judgmentSummary = value;
+    if (section === 'reportSummary') {
+      newData.reportSummary = { ...newData.reportSummary, [field]: value };
+    } else if (section === 'aiGeneratedInsights') {
+      newData.aiGeneratedInsights = { ...newData.aiGeneratedInsights, [field]: value };
+    } else if (section === 'medicalRecommendations') {
+      newData.medicalRecommendations = { ...newData.medicalRecommendations, [field]: value };
+    } else if (section === 'treatmentSuggestions') {
+      newData.treatmentSuggestions = { ...newData.treatmentSuggestions, [field]: value };
+    } else if (section === 'riskPrediction') {
+      newData.riskPrediction = { ...newData.riskPrediction, [field]: value };
+    } else if (section === 'criticalAlertSystem') {
+      newData.criticalAlertSystem = { ...newData.criticalAlertSystem, [field]: value };
+    } else if (section === 'demographicInterpretations') {
+      newData.demographicInterpretations = { ...newData.demographicInterpretations, [field]: value };
+    } else if (section === 'healthSummary') {
+      newData.healthSummary = value;
     }
     
     setEditableData(newData);
@@ -690,64 +668,213 @@ const LegalDocProcessor = () => {
     }
   };
 
-  const downloadCaseDetailsCSV = () => {
+  const downloadCaseDetailsPDF = async () => {
     if (!extractedData) return;
 
     const dataToDownload = editMode && editableData ? editableData : extractedData;
     
-    // Convert the nested data structure to a flat CSV format
-    const csvRows = [];
-    
-    // Add headers
-    csvRows.push(['Section', 'Field', 'Value']);
-    
-    // Add case basic details
-    Object.entries(dataToDownload.caseBasicDetails || {}).forEach(([field, value]) => {
-      csvRows.push(['Case Basic Details', field, value || 'Not Found']);
-    });
-    
-    // Add appellant details
-    Object.entries(dataToDownload.appellantDetails || {}).forEach(([field, value]) => {
-      csvRows.push(['Appellant Details', field, value || 'Not Found']);
-    });
-    
-    // Add respondent details
-    Object.entries(dataToDownload.respondentDetails || {}).forEach(([field, value]) => {
-      csvRows.push(['Respondent Details', field, value || 'Not Found']);
-    });
-    
-    // Add facts details
-    Object.entries(dataToDownload.factsDetails || {}).forEach(([field, value]) => {
-      csvRows.push(['Facts Details', field, value || 'Not Found']);
-    });
-    
-    // Add case details
-    Object.entries(dataToDownload.caseDetails || {}).forEach(([field, value]) => {
-      csvRows.push(['Case Details', field, value || 'Not Found']);
-    });
-    
-    // Add legal provisions
-    (dataToDownload.legalProvisions || []).forEach((provision, index) => {
-      csvRows.push(['Legal Provisions', `Act ${index + 1}`, provision.act || 'Not Found']);
-      csvRows.push(['Legal Provisions', `Sections ${index + 1}`, (provision.sections || []).join(', ') || 'Not Found']);
-    });
-    
-    // Add judgment summary
-    csvRows.push(['Judgment Summary', 'Summary', dataToDownload.judgmentSummary || 'Not Found']);
-    
-    // Convert to CSV string
-    const csvContent = csvRows.map(row => row.map(cell => `"${cell}"`).join(',')).join('\n');
-    
-    // Create and download the file
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `${pdfFileName.replace('.pdf', '')}_case_details.csv`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    try {
+      // Dynamically import jsPDF
+      const { jsPDF } = await import('jspdf');
+      const doc = new jsPDF();
+      
+      let yPosition = 20;
+      const pageHeight = doc.internal.pageSize.height;
+      const margin = 20;
+      const lineHeight = 7;
+      const sectionSpacing = 15;
+      
+      // Helper function to add text with word wrapping
+      const addText = (text, x, y, maxWidth = 170, fontSize = 10) => {
+        doc.setFontSize(fontSize);
+        const lines = doc.splitTextToSize(text, maxWidth);
+        doc.text(lines, x, y);
+        return y + (lines.length * lineHeight);
+      };
+      
+      // Helper function to check page break
+      const checkPageBreak = (requiredSpace) => {
+        if (yPosition + requiredSpace > pageHeight - margin) {
+          doc.addPage();
+          yPosition = 20;
+        }
+      };
+      
+      // Header
+      doc.setFontSize(16);
+      doc.setFont(undefined, 'bold');
+      doc.text('Medical Report Analysis', margin, yPosition);
+      yPosition += 15;
+      
+      // Report Summary Section
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.text('Report Summary', margin, yPosition);
+      yPosition += 10;
+      
+      doc.setFont(undefined, 'normal');
+      const reportSummary = dataToDownload.reportSummary || {};
+      Object.entries(reportSummary).forEach(([field, value]) => {
+        checkPageBreak(15);
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'bold');
+        const fieldName = field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+        doc.text(`${fieldName}:`, margin, yPosition);
+        doc.setFont(undefined, 'normal');
+        yPosition = addText(value || 'Not Found', margin + 50, yPosition);
+        yPosition += 3;
+      });
+      yPosition += sectionSpacing;
+      
+      // Key Health Indicators Section
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.text('Key Health Indicators', margin, yPosition);
+      yPosition += 10;
+      
+      if (dataToDownload.keyHealthIndicators && Array.isArray(dataToDownload.keyHealthIndicators)) {
+        dataToDownload.keyHealthIndicators.forEach((indicator, index) => {
+          checkPageBreak(25);
+          doc.setFont(undefined, 'bold');
+          yPosition = addText(`${indicator.parameterName || indicator.parameter || `Parameter ${index + 1}`}`, margin, yPosition, 170, 11);
+          doc.setFont(undefined, 'normal');
+          yPosition = addText(`Value: ${indicator.value || 'N/A'}`, margin + 10, yPosition);
+          yPosition = addText(`Normal Range: ${indicator.referenceRange || indicator.optimalRange || 'N/A'}`, margin + 10, yPosition);
+          yPosition = addText(`Status: ${indicator.interpretation || 'N/A'}`, margin + 10, yPosition);
+          yPosition += 5;
+        });
+      }
+      yPosition += sectionSpacing;
+      
+      // AI Generated Insights Section
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.text('AI Generated Insights', margin, yPosition);
+      yPosition += 10;
+      
+      const insights = dataToDownload.aiGeneratedInsights || {};
+      Object.entries(insights).forEach(([field, value]) => {
+        if (value && value !== 'Not Found') {
+          checkPageBreak(20);
+          doc.setFont(undefined, 'bold');
+          const fieldName = field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+          doc.text(`${fieldName}:`, margin, yPosition);
+          yPosition += 5;
+          doc.setFont(undefined, 'normal');
+          yPosition = addText(value, margin, yPosition);
+          yPosition += 5;
+        }
+      });
+      yPosition += sectionSpacing;
+      
+      // Medical Recommendations Section
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.text('Medical Recommendations', margin, yPosition);
+      yPosition += 10;
+      
+      const medicalRecs = dataToDownload.medicalRecommendations || {};
+      Object.entries(medicalRecs).forEach(([field, value]) => {
+        if (value && value !== 'Not Found') {
+          checkPageBreak(20);
+          doc.setFont(undefined, 'bold');
+          const fieldName = field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+          doc.text(`${fieldName}:`, margin, yPosition);
+          yPosition += 5;
+          doc.setFont(undefined, 'normal');
+          yPosition = addText(value, margin, yPosition);
+          yPosition += 5;
+        }
+      });
+      yPosition += sectionSpacing;
+      
+      // Treatment Suggestions Section
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.text('Treatment Suggestions', margin, yPosition);
+      yPosition += 10;
+      
+      const treatmentSuggs = dataToDownload.treatmentSuggestions || {};
+      Object.entries(treatmentSuggs).forEach(([field, value]) => {
+        if (value && value !== 'Not Found') {
+          checkPageBreak(20);
+          doc.setFont(undefined, 'bold');
+          const fieldName = field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+          doc.text(`${fieldName}:`, margin, yPosition);
+          yPosition += 5;
+          doc.setFont(undefined, 'normal');
+          yPosition = addText(value, margin, yPosition);
+          yPosition += 5;
+        }
+      });
+      yPosition += sectionSpacing;
+      
+      // Critical Alert System Section
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.text('Critical Alert System', margin, yPosition);
+      yPosition += 10;
+      
+      const criticalAlerts = dataToDownload.criticalAlertSystem || {};
+      Object.entries(criticalAlerts).forEach(([field, value]) => {
+        if (value && value !== 'Not Found') {
+          checkPageBreak(20);
+          doc.setFont(undefined, 'bold');
+          const fieldName = field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+          doc.text(`${fieldName}:`, margin, yPosition);
+          yPosition += 5;
+          doc.setFont(undefined, 'normal');
+          yPosition = addText(value, margin, yPosition);
+          yPosition += 5;
+        }
+      });
+      yPosition += sectionSpacing;
+      
+      // Demographic Interpretations Section
+      checkPageBreak(20);
+      doc.setFontSize(14);
+      doc.setFont(undefined, 'bold');
+      doc.text('Demographic Interpretations', margin, yPosition);
+      yPosition += 10;
+      
+      const demographics = dataToDownload.demographicInterpretations || {};
+      Object.entries(demographics).forEach(([field, value]) => {
+        if (value && value !== 'Not Found') {
+          checkPageBreak(20);
+          doc.setFont(undefined, 'bold');
+          const fieldName = field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+          doc.text(`${fieldName}:`, margin, yPosition);
+          yPosition += 5;
+          doc.setFont(undefined, 'normal');
+          yPosition = addText(value, margin, yPosition);
+          yPosition += 5;
+        }
+      });
+      yPosition += sectionSpacing;
+      
+      // Health Summary Section
+      if (dataToDownload.healthSummary && dataToDownload.healthSummary !== 'Not Found') {
+        checkPageBreak(30);
+        doc.setFontSize(14);
+        doc.setFont(undefined, 'bold');
+        doc.text('Health Summary', margin, yPosition);
+        yPosition += 10;
+        doc.setFont(undefined, 'normal');
+        yPosition = addText(dataToDownload.healthSummary, margin, yPosition);
+      }
+      
+      // Save the PDF
+      doc.save(`${pdfFileName.replace('.pdf', '')}_medical_report.pdf`);
+      
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      showErrorAlert('Failed to generate PDF. Please try again.');
+    }
   };
 
   const renderInspectionDescription = () => {
@@ -802,7 +929,7 @@ const LegalDocProcessor = () => {
 
   const renderFileUploadSection = () => {
     const canProcess = pdfFile && currentCredits >= requiredCredits;
-    const needsSubscription = requiredCredits > 0 && currentCredits < requiredCredits;
+    const needsSubscription = currentCredits === 0 && !loading && !extractedData;
     
     return (
       <div className="upload-section">
@@ -908,9 +1035,9 @@ const LegalDocProcessor = () => {
       <div className="document-actions">
         <button 
           className="action-button"
-          onClick={downloadCaseDetailsCSV}
+          onClick={downloadCaseDetailsPDF}
         >
-          <i className="fas fa-file-csv"></i> Download CSV
+          <i className="fas fa-file-pdf"></i> Download PDF
         </button>
         <button 
           className="action-button"
@@ -935,31 +1062,35 @@ const LegalDocProcessor = () => {
 
     return (
       <div className="pdf-viewer-container">
-        <div className="pdf-toolbar">
-          <div className="pdf-navigation">
-            <button 
-              onClick={() => changePage(-1)} 
-              disabled={pageNumber <= 1}
-              className="pdf-nav-button"
-            >
-              <i className="fas fa-chevron-left"></i>
-            </button>
-            <span className="page-info">
-              Page {pageNumber} of {numPages}
-            </span>
-            <button 
-              onClick={() => changePage(1)} 
-              disabled={pageNumber >= numPages}
-              className="pdf-nav-button"
-            >
-              <i className="fas fa-chevron-right"></i>
-            </button>
-          </div>
-          <div className="pdf-zoom">
+        <div className="pdf-document-container">
+          <Document
+            file={pdfFile}
+            onLoadSuccess={onDocumentLoadSuccess}
+            className="pdf-document"
+          >
+            {Array.from({ length: numPages }, (_, index) => (
+              <div key={index + 1} className="pdf-page-wrapper">
+                <div className="page-number-indicator">
+                  Page {index + 1} of {numPages}
+                </div>
+                <Page 
+                  pageNumber={index + 1} 
+                  scale={pdfScale}
+                  renderTextLayer={true}
+                  renderAnnotationLayer={true}
+                  className="pdf-page"
+                />
+              </div>
+            ))}
+          </Document>
+        </div>
+        
+        <div className="pdf-controls">
+          <div className="zoom-controls">
             <button 
               onClick={() => changeScale(pdfScale - 0.2)}
               disabled={pdfScale <= 0.6}
-              className="pdf-zoom-button"
+              className="zoom-button"
             >
               <i className="fas fa-search-minus"></i>
             </button>
@@ -967,33 +1098,86 @@ const LegalDocProcessor = () => {
             <button 
               onClick={() => changeScale(pdfScale + 0.2)}
               disabled={pdfScale >= 2.0}
-              className="pdf-zoom-button"
+              className="zoom-button"
             >
               <i className="fas fa-search-plus"></i>
             </button>
           </div>
         </div>
-        
-        <div className="pdf-document-container">
-          <Document
-            file={pdfFile}
-            onLoadSuccess={onDocumentLoadSuccess}
-            className="pdf-document"
-          >
-            <Page 
-              pageNumber={pageNumber} 
-              scale={pdfScale}
-              renderTextLayer={true}
-              renderAnnotationLayer={true}
-              className="pdf-page"
-            />
-          </Document>
+      </div>
+    );
+  };
+
+  // Helper function to format bullet points
+  const formatBulletPoints = (text) => {
+    if (!text || text === 'Not Found') return text;
+    
+    // If the text already contains bullet points from API, render them properly
+    if (text.includes('•') || text.includes('-') || text.includes('*')) {
+      const lines = text.split('\n').filter(line => line.trim().length > 0);
+      return (
+        <div className="bullet-points-container">
+          {lines.map((line, index) => {
+            const cleanLine = line.trim().replace(/^[•\-\*]\s*/, '');
+            return (
+              <div key={index} className="bullet-point-item">
+                <span className="bullet-icon">•</span>
+                <span className="bullet-text">{cleanLine}</span>
+              </div>
+            );
+          })}
         </div>
+      );
+    }
+    
+    // Split by common delimiters and create bullet points
+    const sentences = text.split(/[.;]\s+/)
+      .filter(sentence => sentence.trim().length > 0)
+      .map(sentence => sentence.trim().replace(/^[•\-\*]\s*/, ''));
+    
+    if (sentences.length <= 1) return text;
+    
+    return (
+      <div className="bullet-points-container">
+        {sentences.map((sentence, index) => (
+          <div key={index} className="bullet-point-item">
+            <span className="bullet-icon">•</span>
+            <span className="bullet-text">{sentence.endsWith('.') ? sentence : sentence + '.'}</span>
+          </div>
+        ))}
       </div>
     );
   };
 
   const renderEditableField = (section, field, value, label, type = 'text') => {
+    // Convert objects or arrays to readable strings
+    const formatValue = (val) => {
+      if (val === null || val === undefined) return 'Not Found';
+      if (typeof val === 'object') {
+        if (Array.isArray(val)) {
+          return val.map(item => 
+            typeof item === 'object' ? JSON.stringify(item) : String(item)
+          ).join(', ');
+        }
+        return JSON.stringify(val, null, 2);
+      }
+      return String(val);
+    };
+    
+    // Convert "Not Found" and other empty-like values to empty string for easier editing
+    const formattedValue = formatValue(value);
+    const isEmptyValue = !value || 
+                        formattedValue === 'Not Found' || 
+                        formattedValue === 'Not found' || 
+                        formattedValue === 'not found' || 
+                        formattedValue === '' || 
+                        value === null || 
+                        value === undefined;
+    const editValue = editMode && isEmptyValue ? '' : formattedValue;
+    
+    // Check if this is a medical recommendation or treatment suggestion field for bullet point formatting
+    const isBulletPointField = section === 'medicalRecommendations' || section === 'treatmentSuggestions';
+    
     return (
       <div className="data-item editable">
         <div className="data-label">{label}</div>
@@ -1001,19 +1185,26 @@ const LegalDocProcessor = () => {
           type === 'textarea' ? (
             <textarea
               className="editable-field textarea"
-              value={value}
+              value={editValue}
               onChange={(e) => handleEditableDataChange(section, field, e.target.value)}
+              placeholder={`Enter ${label.toLowerCase()}`}
             />
           ) : (
             <input
               type="text"
               className="editable-field"
-              value={value}
+              value={editValue}
               onChange={(e) => handleEditableDataChange(section, field, e.target.value)}
+              placeholder={`Enter ${label.toLowerCase()}`}
             />
           )
         ) : (
-          <div className="data-value">{value}</div>
+          <div className="data-value">
+            {isBulletPointField && formattedValue !== 'Not Found' ? 
+              formatBulletPoints(formattedValue) : 
+              formattedValue
+            }
+          </div>
         )}
       </div>
     );
@@ -1025,28 +1216,35 @@ const LegalDocProcessor = () => {
     const bookmarks = isBookmarkEditMode ? editableBookmarks : bookmarkData;
 
     return (
-      <div className="bookmark-editor-container">
-       
-        <div className="bookmarks-list">
-          {bookmarks.map((bookmark, index) => (
-            <div 
-              key={index} 
-              className="bookmark-item"
-              style={{ paddingLeft: `${(bookmark.level - 1) * 20}px` }}
-            >
-              {isBookmarkEditMode ? (
-                <div className="editable-bookmark">
-                  <div className="bookmark-fields">
-                    <input
-                      type="text"
-                      className="editable-field"
-                      value={bookmark.title}
-                      onChange={(e) => handleEditableBookmarkChange(index, 'title', e.target.value)}
-                      placeholder="Bookmark title"
-                    />
-                    <div className="bookmark-controls">
-                      <div className="bookmark-number-field">
-                        <label>Start Page:</label>
+      <div className="extracted-info-container">
+        <div className="extracted-section">
+          <h3>Document Bookmarks</h3>
+          
+          <div className="bookmarks-grid">
+            {bookmarks.map((bookmark, index) => (
+              <div key={index} className="bookmark-data-item">
+                <div className="bookmark-row">
+                  <div className="bookmark-field-group">
+                    <div className="data-item">
+                      <div className="data-label">Title</div>
+                      {isBookmarkEditMode ? (
+                        <input
+                          type="text"
+                          className="editable-field"
+                          value={bookmark.title}
+                          onChange={(e) => handleEditableBookmarkChange(index, 'title', e.target.value)}
+                          placeholder="Enter bookmark title"
+                        />
+                      ) : (
+                        <div className="data-value">{bookmark.title}</div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="bookmark-page-group">
+                    <div className="data-item">
+                      <div className="data-label">Start Page</div>
+                      {isBookmarkEditMode ? (
                         <input
                           type="number"
                           className="editable-field small"
@@ -1059,9 +1257,14 @@ const LegalDocProcessor = () => {
                           min="1"
                           max={numPages || 999}
                         />
-                      </div>
-                      <div className="bookmark-number-field">
-                        <label>End Page:</label>
+                      ) : (
+                        <div className="data-value">{bookmark.startPage || bookmark.page || 1}</div>
+                      )}
+                    </div>
+                    
+                    <div className="data-item">
+                      <div className="data-label">End Page</div>
+                      {isBookmarkEditMode ? (
                         <input
                           type="number"
                           className="editable-field small"
@@ -1074,9 +1277,14 @@ const LegalDocProcessor = () => {
                           min={bookmark.startPage || 1}
                           max={numPages || 999}
                         />
-                      </div>
-                      <div className="bookmark-number-field">
-                        <label>Level:</label>
+                      ) : (
+                        <div className="data-value">{bookmark.endPage || bookmark.startPage || bookmark.page || 1}</div>
+                      )}
+                    </div>
+                    
+                    <div className="data-item">
+                      <div className="data-label">Level</div>
+                      {isBookmarkEditMode ? (
                         <select
                           className="editable-field small"
                           value={bookmark.level}
@@ -1086,54 +1294,113 @@ const LegalDocProcessor = () => {
                           <option value="2">2</option>
                           <option value="3">3</option>
                         </select>
-                      </div>
+                      ) : (
+                        <div className="data-value">{bookmark.level}</div>
+                      )}
                     </div>
                   </div>
-                  <div className="bookmark-actions">
-                    <button 
-                      className="bookmark-action-btn move-up"
-                      onClick={() => moveBookmark(index, 'up')}
-                      disabled={index === 0}
-                    >
-                      <i className="fas fa-arrow-up"></i>
-                    </button>
-                    <button 
-                      className="bookmark-action-btn move-down"
-                      onClick={() => moveBookmark(index, 'down')}
-                      disabled={index === bookmarks.length - 1}
-                    >
-                      <i className="fas fa-arrow-down"></i>
-                    </button>
-                    <button 
-                      className="bookmark-action-btn delete"
-                      onClick={() => deleteBookmark(index)}
-                    >
-                      <i className="fas fa-trash"></i>
-                    </button>
-                  </div>
+                  
+                  {isBookmarkEditMode && (
+                    <div className="bookmark-actions-group">
+                      <button 
+                        className="bookmark-action-btn move-up"
+                        onClick={() => moveBookmark(index, 'up')}
+                        disabled={index === 0}
+                        title="Move up"
+                      >
+                        <i className="fas fa-arrow-up"></i>
+                      </button>
+                      <button 
+                        className="bookmark-action-btn move-down"
+                        onClick={() => moveBookmark(index, 'down')}
+                        disabled={index === bookmarks.length - 1}
+                        title="Move down"
+                      >
+                        <i className="fas fa-arrow-down"></i>
+                      </button>
+                      <button 
+                        className="bookmark-action-btn delete"
+                        onClick={() => deleteBookmark(index)}
+                        title="Delete bookmark"
+                      >
+                        <i className="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="bookmark-display">
-                  <div className="bookmark-title">
-                    <i className={bookmark.level === 1 ? "fas fa-bookmark" : "fas fa-angle-right"}></i>
-                    <span>{bookmark.title}</span>
-                  </div>
-                  <div className="bookmark-page">
-                    Pages {bookmark.startPage || bookmark.page || 1} - {bookmark.endPage || bookmark.startPage || bookmark.page || 1}
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
-          
-          {isBookmarkEditMode && (
-            <div className="add-bookmark">
-              <button className="add-bookmark-btn" onClick={addNewBookmark}>
-                <i className="fas fa-plus"></i> Add Bookmark
-              </button>
-            </div>
-          )}
+              </div>
+            ))}
+            
+            {isBookmarkEditMode && (
+              <div className="add-bookmark-container">
+                <button className="add-bookmark-btn" onClick={addNewBookmark}>
+                  <i className="fas fa-plus"></i> Add New Bookmark
+                </button>
+              </div>
+            )}
+          </div>
         </div>
+      </div>
+    );
+  };
+
+  // Helper function to determine severity color
+  const getSeverityColor = (interpretation, severity) => {
+    const lowerInterp = (interpretation || '').toLowerCase();
+    const lowerSev = (severity || '').toLowerCase();
+    
+    if (lowerSev.includes('critical') || lowerSev.includes('immediate') || lowerInterp.includes('high') || lowerInterp.includes('critical')) {
+      return '#ff4444'; // Red
+    } else if (lowerSev.includes('borderline') || lowerInterp.includes('borderline') || lowerInterp.includes('slightly')) {
+      return '#ffa500'; // Orange
+    } else if (lowerSev.includes('normal') || lowerInterp.includes('normal') || lowerInterp.includes('good')) {
+      return '#22c55e'; // Green
+    }
+    return '#6b7280'; // Gray for unknown
+  };
+
+  // Function to render health indicators with color coding
+  const renderHealthIndicators = (indicators) => {
+    if (!indicators || !Array.isArray(indicators) || indicators.length === 0) {
+      return <div className="no-indicators">No health indicators available</div>;
+    }
+
+    return (
+      <div className="health-indicators-grid">
+        {indicators.map((indicator, index) => {
+          const parameterName = indicator.parameterName || indicator.parameter || indicator.name || `Parameter ${index + 1}`;
+          const value = indicator.value || indicator.yourValue || 'N/A';
+          const referenceRange = indicator.referenceRange || indicator.optimalRange || indicator.range || 'N/A';
+          const interpretation = indicator.interpretation || 'N/A';
+          const severity = indicator.severity || indicator.severityTag || 'N/A';
+          
+          const severityColor = getSeverityColor(interpretation, severity);
+          
+          return (
+            <div key={index} className="health-indicator-card" style={{ borderLeft: `4px solid ${severityColor}` }}>
+              <div className="indicator-header">
+                <h4 className="parameter-name">{parameterName}</h4>
+                <div className="severity-badge" style={{ backgroundColor: severityColor, color: 'white' }}>
+                  {severity}
+                </div>
+              </div>
+              <div className="indicator-details">
+                <div className="indicator-row">
+                  <span className="label">Value:</span>
+                  <span className="value" style={{ color: severityColor, fontWeight: 'bold' }}>{value}</span>
+                </div>
+                <div className="indicator-row">
+                  <span className="label">Normal:</span>
+                  <span className="value">{referenceRange}</span>
+                </div>
+                <div className="indicator-row">
+                  <span className="label">Status:</span>
+                  <span className="value">{interpretation}</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     );
   };
@@ -1144,12 +1411,12 @@ const LegalDocProcessor = () => {
     const data = editMode && editableData ? editableData : extractedData;
     
     // Check if data or required properties are undefined
-    if (!data || !data.caseBasicDetails) {
+    if (!data || !data.reportSummary) {
       showErrorAlert('The document data is incomplete or in an unexpected format. Please try processing the document again.');
       return null;
     }
     
-    const { caseBasicDetails, appellantDetails, respondentDetails, factsDetails, caseDetails, legalProvisions, judgmentSummary } = data;
+    const { reportSummary, keyHealthIndicators, aiGeneratedInsights, medicalRecommendations, treatmentSuggestions, riskPrediction, criticalAlertSystem, demographicInterpretations, healthSummary } = data;
 
     return (
       <div className="extracted-info-container">
@@ -1158,163 +1425,91 @@ const LegalDocProcessor = () => {
         </div>
 
         <div className="extracted-section">
-          <h3>Case Basic Details</h3>
+          <h3>🔍 Report Summary</h3>
           <div className="data-grid">
-            {renderEditableField('caseBasicDetails', 'district', caseBasicDetails?.district || 'Not Found', 'District')}
-            {renderEditableField('caseBasicDetails', 'establishment', caseBasicDetails?.establishment || 'Not Found', 'Establishment')}
-            {renderEditableField('caseBasicDetails', 'caseType', caseBasicDetails?.caseType || 'Not Found', 'Case Type')}
-            {renderEditableField('caseBasicDetails', 'reliefSought', caseBasicDetails?.reliefSought || 'Not Found', 'Relief Sought')}
-            {renderEditableField('caseBasicDetails', 'caseTypeSpecific', caseBasicDetails?.caseTypeSpecific || 'Not Found', 'Case Type Specific')}
-            {renderEditableField('caseBasicDetails', 'subCourt', caseBasicDetails?.subCourt || 'Not Found', 'Sub Court')}
-            {renderEditableField('caseBasicDetails', 'subDistCourt', caseBasicDetails?.subDistCourt || 'Not Found', 'Sub District Court')}
-            {renderEditableField('caseBasicDetails', 'subEstablishment', caseBasicDetails?.subEstablishment || 'Not Found', 'Sub Establishment')}
-            {renderEditableField('caseBasicDetails', 'subCaseType', caseBasicDetails?.subCaseType || 'Not Found', 'Sub Case Type')}
-            {renderEditableField('caseBasicDetails', 'caseNumber', caseBasicDetails?.caseNumber || 'Not Found', 'Case Number')}
-            {renderEditableField('caseBasicDetails', 'caseYear', caseBasicDetails?.caseYear || 'Not Found', 'Case Year')}
-            {renderEditableField('caseBasicDetails', 'decisionDate', caseBasicDetails?.decisionDate || 'Not Found', 'Decision Date')}
-            {renderEditableField('caseBasicDetails', 'appliedDate', caseBasicDetails?.appliedDate || 'Not Found', 'Applied Date')}
-            {renderEditableField('caseBasicDetails', 'receivedDate', caseBasicDetails?.receivedDate || 'Not Found', 'Received Date')}
-            {renderEditableField('caseBasicDetails', 'partyName', caseBasicDetails?.partyName || 'Not Found', 'Party Name')}
-            {renderEditableField('caseBasicDetails', 'partyMobile', caseBasicDetails?.partyMobile || 'Not Found', 'Party Mobile')}
+            {renderEditableField('reportSummary', 'testName', reportSummary?.testName || 'Not Found', 'Test Name')}
+            {renderEditableField('reportSummary', 'reportDate', reportSummary?.reportDate || 'Not Found', 'Report Date')}
+            {renderEditableField('reportSummary', 'labName', reportSummary?.labName || 'Not Found', 'Lab Name')}
+            {renderEditableField('reportSummary', 'patientAge', reportSummary?.patientAge || 'Not Found', 'Patient Age')}
+            {renderEditableField('reportSummary', 'patientGender', reportSummary?.patientGender || 'Not Found', 'Patient Gender')}
           </div>
         </div>
 
         <div className="extracted-section">
-          <h3>Appellant Details</h3>
-          <div className="data-grid">
-            {renderEditableField('appellantDetails', 'type', appellantDetails?.type || 'Not Found', 'Type')}
-            {renderEditableField('appellantDetails', 'salutation', appellantDetails?.salutation || 'Not Found', 'Salutation')}
-            {renderEditableField('appellantDetails', 'name', appellantDetails?.name || 'Not Found', 'Name')}
-            {renderEditableField('appellantDetails', 'gender', appellantDetails?.gender || 'Not Found', 'Gender')}
-            {renderEditableField('appellantDetails', 'fatherFlag', appellantDetails?.fatherFlag || 'Not Found', 'Father Flag')}
-            {renderEditableField('appellantDetails', 'fatherName', appellantDetails?.fatherName || 'Not Found', 'Father Name')}
-            {renderEditableField('appellantDetails', 'dob', appellantDetails?.dob || 'Not Found', 'Date of Birth')}
-            {renderEditableField('appellantDetails', 'age', appellantDetails?.age || 'Not Found', 'Age')}
-            {renderEditableField('appellantDetails', 'caste', appellantDetails?.caste || 'Not Found', 'Caste')}
-            {renderEditableField('appellantDetails', 'extraCount', appellantDetails?.extraCount || 'Not Found', 'Extra Count')}
-            {renderEditableField('appellantDetails', 'email', appellantDetails?.email || 'Not Found', 'Email')}
-            {renderEditableField('appellantDetails', 'mobile', appellantDetails?.mobile || 'Not Found', 'Mobile')}
-            {renderEditableField('appellantDetails', 'occupation', appellantDetails?.occupation || 'Not Found', 'Occupation')}
-            {renderEditableField('appellantDetails', 'address', appellantDetails?.address || 'Not Found', 'Address', 'textarea')}
-            {renderEditableField('appellantDetails', 'pincode', appellantDetails?.pincode || 'Not Found', 'Pincode')}
-            {renderEditableField('appellantDetails', 'state', appellantDetails?.state || 'Not Found', 'State')}
-            {renderEditableField('appellantDetails', 'district', appellantDetails?.district || 'Not Found', 'District')}
+          <h3>📊 Key Health Indicators</h3>
+          <div className="health-indicators-container">
+            {renderHealthIndicators(keyHealthIndicators)}
           </div>
         </div>
 
         <div className="extracted-section">
-          <h3>Respondent Details</h3>
+          <h3>🧠Insights</h3>
           <div className="data-grid">
-            {renderEditableField('respondentDetails', 'type', respondentDetails?.type || 'Not Found', 'Type')}
-            {renderEditableField('respondentDetails', 'salutation', respondentDetails?.salutation || 'Not Found', 'Salutation')}
-            {renderEditableField('respondentDetails', 'name', respondentDetails?.name || 'Not Found', 'Name')}
-            {renderEditableField('respondentDetails', 'gender', respondentDetails?.gender || 'Not Found', 'Gender')}
-            {renderEditableField('respondentDetails', 'fatherFlag', respondentDetails?.fatherFlag || 'Not Found', 'Father Flag')}
-            {renderEditableField('respondentDetails', 'fatherName', respondentDetails?.fatherName || 'Not Found', 'Father Name')}
-            {renderEditableField('respondentDetails', 'dob', respondentDetails?.dob || 'Not Found', 'Date of Birth')}
-            {renderEditableField('respondentDetails', 'age', respondentDetails?.age || 'Not Found', 'Age')}
-            {renderEditableField('respondentDetails', 'caste', respondentDetails?.caste || 'Not Found', 'Caste')}
-            {renderEditableField('respondentDetails', 'extraCount', respondentDetails?.extraCount || 'Not Found', 'Extra Count')}
-            {renderEditableField('respondentDetails', 'email', respondentDetails?.email || 'Not Found', 'Email')}
-            {renderEditableField('respondentDetails', 'mobile', respondentDetails?.mobile || 'Not Found', 'Mobile')}
-            {renderEditableField('respondentDetails', 'occupation', respondentDetails?.occupation || 'Not Found', 'Occupation')}
-            {renderEditableField('respondentDetails', 'address', respondentDetails?.address || 'Not Found', 'Address', 'textarea')}
-            {renderEditableField('respondentDetails', 'pincode', respondentDetails?.pincode || 'Not Found', 'Pincode')}
-            {renderEditableField('respondentDetails', 'state', respondentDetails?.state || 'Not Found', 'State')}
-            {renderEditableField('respondentDetails', 'district', respondentDetails?.district || 'Not Found', 'District')}
+            {renderEditableField('aiGeneratedInsights', 'explanations', aiGeneratedInsights?.explanations || 'Not Found', 'What does this mean?', 'textarea')}
+            {renderEditableField('aiGeneratedInsights', 'potentialCauses', aiGeneratedInsights?.potentialCauses || 'Not Found', 'Potential Causes', 'textarea')}
+            {renderEditableField('aiGeneratedInsights', 'interParameterRelationships', aiGeneratedInsights?.interParameterRelationships || 'Not Found', 'Inter-parameter Relationships', 'textarea')}
+          </div>
+        </div>
+     
+        <div className="extracted-section">
+          <h3>👥 Demographic-Specific Interpretations</h3>
+          <div className="data-grid">
+            {renderEditableField('demographicInterpretations', 'ageAdjustedRanges', demographicInterpretations?.ageAdjustedRanges || 'Not Found', 'Age-Adjusted Ranges', 'textarea')}
+            {renderEditableField('demographicInterpretations', 'genderSpecificAnalysis', demographicInterpretations?.genderSpecificAnalysis || 'Not Found', 'Gender-Specific Analysis', 'textarea')}
+            {renderEditableField('demographicInterpretations', 'ethnicityConsiderations', demographicInterpretations?.ethnicityConsiderations || 'Not Found', 'Ethnicity Considerations', 'textarea')}
+            {renderEditableField('demographicInterpretations', 'specialPopulations', demographicInterpretations?.specialPopulations || 'Not Found', 'Special Populations', 'textarea')}
+          </div>
+        </div>
+         
+        <div className="extracted-section">
+          <h3>🩺 Medical Recommendations</h3>
+          <div className="data-grid">
+            {renderEditableField('medicalRecommendations', 'preventionTips', medicalRecommendations?.preventionTips || 'Not Found', 'Prevention Tips', 'textarea')}
+            {renderEditableField('medicalRecommendations', 'lifestyleModifications', medicalRecommendations?.lifestyleModifications || 'Not Found', 'Lifestyle Modifications', 'textarea')}
+            {renderEditableField('medicalRecommendations', 'homeRemedies', medicalRecommendations?.homeRemedies || 'Not Found', 'Home Remedies', 'textarea')}
+            {renderEditableField('medicalRecommendations', 'mentalWellness', medicalRecommendations?.mentalWellness || 'Not Found', 'Mental Wellness', 'textarea')}
           </div>
         </div>
 
         <div className="extracted-section">
-          <h3>Facts Details</h3>
+          <h3>💊 Treatment Suggestions</h3>
           <div className="data-grid">
-            {renderEditableField('factsDetails', 'factDate', factsDetails?.factDate || 'Not Found', 'Fact Date')}
-            {renderEditableField('factsDetails', 'factTime', factsDetails?.factTime || 'Not Found', 'Fact Time')}
-            {renderEditableField('factsDetails', 'facts', factsDetails?.facts || 'Not Found', 'Facts', 'textarea')}
+            {renderEditableField('treatmentSuggestions', 'doctorActions', treatmentSuggestions?.doctorActions || 'Not Found', 'Doctor Recommended Actions', 'textarea')}
+            {renderEditableField('treatmentSuggestions', 'suggestedMedications', treatmentSuggestions?.suggestedMedications || 'Not Found', 'Suggested Medications', 'textarea')}
+            {renderEditableField('treatmentSuggestions', 'followUpTests', treatmentSuggestions?.followUpTests || 'Not Found', 'Next Tests/Follow-ups', 'textarea')}
           </div>
         </div>
 
-        <div className="extracted-section">
-          <h3>Case Details</h3>
+       
+
+        <div className="extracted-section critical-alerts">
+          <h3>🚨 Critical Alert System</h3>
           <div className="data-grid">
-            {renderEditableField('caseDetails', 'causeOfAction', caseDetails?.causeOfAction || 'Not Found', 'Cause of Action')}
-            {renderEditableField('caseDetails', 'offenseDate', caseDetails?.offenseDate || 'Not Found', 'Offense Date')}
-            {renderEditableField('caseDetails', 'subject', caseDetails?.subject || 'Not Found', 'Subject')}
-            {renderEditableField('caseDetails', 'reliefOffense', caseDetails?.reliefOffense || 'Not Found', 'Relief/Offense')}
-            {renderEditableField('caseDetails', 'amount', caseDetails?.amount || 'Not Found', 'Amount')}
-            {renderEditableField('caseDetails', 'registeredPlace', caseDetails?.registeredPlace ? 'Yes' : 'No', 'Registered Place')}
-            {renderEditableField('caseDetails', 'stateId', caseDetails?.stateId || 'Not Found', 'State ID')}
-            {renderEditableField('caseDetails', 'districtCode', caseDetails?.districtCode || 'Not Found', 'District Code')}
+            {renderEditableField('criticalAlertSystem', 'redFlagIndicators', criticalAlertSystem?.redFlagIndicators || 'Not Found', 'Red Flag Indicators', 'textarea')}
+            {renderEditableField('criticalAlertSystem', 'emergencyContacts', criticalAlertSystem?.emergencyContacts || 'Not Found', 'Emergency Contact Suggestions', 'textarea')}
+            {renderEditableField('criticalAlertSystem', 'urgencyTimeline', criticalAlertSystem?.urgencyTimeline || 'Not Found', 'Urgency Timeline', 'textarea')}
           </div>
         </div>
 
-        <div className="extracted-section">
-          <h3>Legal Provisions</h3>
-          <div className="acts-section">
+     
+
+        {/* <div className="extracted-section health-summary-section">
+          <h3>📁 Health Summary</h3> */}
+          <div className="health-summary-item">
+            <div className="data-label">Comprehensive Health Overview</div>
             {editMode ? (
-              <table className="acts-table editable">
-                <thead>
-                  <tr>
-                    <th>Act</th>
-                    <th>Sections</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {legalProvisions.map((provision, index) => (
-                    <tr key={index}>
-                      <td>
-                        <input
-                          type="text"
-                          className="editable-field"
-                          value={provision.act || ''}
-                          onChange={(e) => handleEditableDataChange('legalProvisions', `${index}.act`, e.target.value)}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          className="editable-field"
-                          value={(provision.sections || []).join(', ')}
-                          onChange={(e) => handleEditableDataChange('legalProvisions', `${index}.sections`, e.target.value)}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <textarea
+                className="health-summary-textarea"
+                value={healthSummary && healthSummary !== 'Not Found' && healthSummary !== 'Not found' && healthSummary !== 'not found' ? healthSummary : ''}
+                onChange={(e) => handleEditableDataChange('healthSummary', '', e.target.value)}
+                placeholder="Enter comprehensive health summary including overall health status, key findings, recommendations, and next steps..."
+                rows="10"
+              />
             ) : (
-              <table className="acts-table">
-                <thead>
-                  <tr>
-                    <th>Act</th>
-                    <th>Sections</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {legalProvisions.map((provision, index) => (
-                    <tr key={index}>
-                      <td>{provision.act || 'Not Found'}</td>
-                      <td>{(provision.sections || []).join(', ') || 'Not Found'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <div className="health-summary-value">{healthSummary || 'Not Found'}</div>
             )}
           </div>
-        </div>
-
-        <div className="extracted-section">
-          <h3>Judgment Summary</h3>
-          {editMode ? (
-            <textarea
-              className="editable-field textarea full-width"
-              value={judgmentSummary || ''}
-              onChange={(e) => handleEditableDataChange('judgmentSummary', '', e.target.value)}
-            />
-          ) : (
-            <div className="data-value">{judgmentSummary || 'Not Found'}</div>
-          )}
-        </div>
+        {/* </div> */}
 
         
       </div>
@@ -1345,14 +1540,21 @@ const LegalDocProcessor = () => {
        
     
     <div className="legal-doc-processor-container">
-    
+      {isLoadingSession ? (
+        <div className="loading-container">
+          <div className="loading-spinner">
+            <i className="fas fa-cog fa-spin"></i>
+          </div>
+          <p>Loading...</p>
+        </div>
+      ) : (
+        <>
+          {!pdfFile && renderFileUploadSection()}
 
-      {!pdfFile && renderFileUploadSection()}
-
-      {loading && renderLoadingState()}
-   
-      
-      {!loading && pdfFile && extractedData && (
+          {loading && renderLoadingState()}
+       
+          
+          {!loading && pdfFile && extractedData && (
         
         <div className={`results-container ${inspectionMode ? 'with-pdf-view' : ''}`}>
           {/* Render actions first when not in inspection mode */}
@@ -1367,9 +1569,9 @@ const LegalDocProcessor = () => {
                 <div className="results-header">
                 
                   <div className="header-buttons">
-                    <button className="download-button small" onClick={downloadCaseDetailsCSV}>
-                      <i className="fas fa-file-csv"></i>
-                      Download CSV
+                    <button className="download-button small" onClick={downloadCaseDetailsPDF}>
+                      <i className="fas fa-file-pdf"></i>
+                      Download PDF
                     </button>
                     <button className="download-pdf-button small" onClick={downloadBookmarksTxt} disabled={!bookmarkData}>
                       <i className="fas fa-file-download"></i> Download Bookmarks
@@ -1405,6 +1607,8 @@ const LegalDocProcessor = () => {
             renderExtractedInfo()
           )}
         </div>
+          )}
+        </>
       )}
     </div>
   );

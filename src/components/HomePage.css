@@ -561,7 +561,7 @@
 
 .feature-item p {
   margin: 0rem;
-  color: #666;
+  color: #434343 !important;
   line-height: 1.6;
   font-size: 14px;
 }

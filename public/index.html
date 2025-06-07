@@ -8,7 +8,7 @@
     <meta name="google" content="notranslate" />
     <meta
       name="description"
-      content="eCase - Convert, and Analyze your legal documents"
+      content="Extract medical info & generate PDF bookmarks from medical reports with AI. Upload, process, and export medical data instantly. Try eHealthReport for free today!"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
@@ -19,22 +19,103 @@
     <!-- Add Font Awesome for file icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Translate -->
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="text/javascript">
       function googleTranslateElementInit() {
         new google.translate.TranslateElement({
           pageLanguage: 'en',
-          includedLanguages: 'en,pt,es,de,it,fr,zh-CN,ja,hi',
+          includedLanguages: 'en,pt,es,de,it,fr,zh-CN,ja,hi,ar,ru,ko',
           layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false
+          autoDisplay: false,
+          multilanguagePage: true
         }, 'google_translate_element');
       }
+      
+      // Function to reset Google Translate
+      function resetGoogleTranslate() {
+        try {
+          var translateElement = document.getElementById('google_translate_element');
+          if (translateElement) {
+            translateElement.innerHTML = '';
+            googleTranslateElementInit();
+          }
+        } catch (e) {
+          console.log('Google Translate reset error:', e);
+        }
+      }
+      
+      // Reset translate on page load
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          if (typeof google !== 'undefined' && google.translate) {
+            resetGoogleTranslate();
+          }
+        }, 1000);
+      });
     </script>
-    <title>eCase.site</title>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    
+    <!-- Google Translate Styles -->
+    <style>
+      /* Google Translate Widget Styles */
+      #google_translate_element {
+        position: fixed !important;
+        top: 10px !important;
+        right: 10px !important;
+        z-index: 9999 !important;
+        background: white !important;
+        border-radius: 4px !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+        padding: 5px !important;
+      }
+      
+      /* Hide Google Translate banner */
+      .goog-te-banner-frame {
+        display: none !important;
+      }
+      
+      /* Style the translate dropdown */
+      .goog-te-gadget {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 12px !important;
+      }
+      
+      .goog-te-gadget-simple {
+        background-color: #fff !important;
+        border: 1px solid #ddd !important;
+        border-radius: 4px !important;
+        padding: 5px 8px !important;
+        font-size: 12px !important;
+      }
+      
+      .goog-te-gadget-simple:hover {
+        border-color: #3498db !important;
+      }
+      
+      /* Remove translate top bar */
+      body {
+        top: 0 !important;
+      }
+      
+      /* Ensure page content is not pushed down */
+      .skiptranslate {
+        display: none !important;
+      }
+      
+      /* Fix any layout issues caused by Google Translate */
+      body > .skiptranslate {
+        display: none !important;
+      }
+      
+      iframe.goog-te-menu-frame {
+        z-index: 10000 !important;
+      }
+    </style>
+    
+    <title>eHealthReport | Medical Report Analysis and Processing</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <div id="google_translate_element" style="display:none"></div>
+    <div id="google_translate_element"></div>
   </body>
 </html>

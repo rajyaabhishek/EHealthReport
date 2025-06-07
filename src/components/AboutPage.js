@@ -4,32 +4,32 @@ const AboutPage = () => {
   return (
     <div className="about-page">  
       <div className="about-content container">
-        <h1 className="about-title">About eCase.site</h1>
-        <h3 className="about-subtitle">The story behind your new favorite legal assistant</h3>
+        <h1 className="about-title">About eHealthReport</h1>
+        <h3 className="about-subtitle">The story behind your new favorite medical assistant</h3>
         
         <div className="mission-section">
-          <h2 className="section-heading">Our Mission (Or Why We Exist)</h2>
-          <p className="about-text">
-            Let's face it – the legal world moves faster than a judge's gavel on a Friday afternoon. And we all know time is your most precious commodity (even more valuable than those fancy law school degrees hanging on your wall!).
-          </p>
-          <p className="about-text">
-            We created eCase.site after watching brilliant legal minds – lawyers, judges, clerks, and entire firms – spend countless hours hunting through mountains of documents for those critical nuggets of information. It's exactly like searching for a needle in a haystack, except the needle is a crucial legal precedent and the haystack is... well, hundreds of pages of dense legalese.
-          </p>
-          <p className="about-text">
-            eCase.site is our humble solution: we process your legal documents and instantly highlight the insights you actually need. We save you time so you can focus on the important stuff – like winning cases, serving justice, or making it home for dinner with the family. Maybe even all three!
-          </p>
-        </div>
-        
+  <h2 className="section-heading">Our Mission (Or Why We Exist)</h2>
+  <p className="about-text">
+    Let’s face it – healthcare is a complex field, and medical professionals barely have time to breathe, let alone dig through endless pages of reports. In a world where every second matters, your time is more valuable than ever (even more than those hard-earned medical degrees on your wall!).
+  </p>
+  <p className="about-text">
+    We built eHealthReport after seeing doctors, nurses, researchers – and everyday people – waste countless hours trying to make sense of complex medical documents. Whether it’s hunting for key diagnostics, comparing treatments, or simply trying to understand what that test result actually means, it often feels like deciphering another language.
+  </p>
+  <p className="about-text">
+    eHealthReport is our answer: we process your medical records and instantly highlight the insights that truly matter – in language that's easy to understand. We’re here to save professionals time and empower everyday users to take charge of their health with clarity and confidence.
+  </p>
+</div>
+
         <div className="developer-section">
           <h2 className="section-heading">The Human Behind the Code</h2>
           <p className="about-text">
-             eCase.site comes from the crazy mind of a 21-year-old with a simple but powerful belief: straightforward tools can create extraordinary impact. 
+             eHealthReport comes from the crazy mind of a 21-year-old with a simple but powerful belief: straightforward tools can create extraordinary impact. 
           </p>
           <p className="about-text">
             Armed with a passion for user experience, a genuine desire to help people, and yes – perhaps a healthy dose of youthful idealism (we prefer to call it "unbounded optimism") – we're on a mission to build solutions that aren't just useful, but become essential parts of your daily workflow.
           </p>
           <p className="about-text">
-            We take pride in crafting tools with heart, designed specifically to solve real problems for the legal community. No venture capital, no fancy office, just one person with a laptop and the determination to make your professional life a little bit easier.
+            We take pride in crafting tools with heart, designed specifically to solve real problems for the health community. No venture capital, no fancy office, just one person with a laptop and the determination to make your life a little bit easier.
           </p>
           <p className="about-text final-note">
             Thanks for giving our little tool a chance to help with your big work! ⚖️

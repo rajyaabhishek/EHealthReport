@@ -36,7 +36,6 @@ jobs:
       env:
         REACT_APP_CLERK_PUBLISHABLE_KEY: ${{ secrets.REACT_APP_CLERK_PUBLISHABLE_KEY }}
         REACT_APP_AI_API_KEY: ${{ secrets.REACT_APP_AI_API_KEY }}
-        REACT_APP_CASHFREE_ENVIRONMENT: ${{ secrets.REACT_APP_CASHFREE_ENVIRONMENT }}
         REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
         PUBLIC_URL: https://ecase.site
       run: npm run build

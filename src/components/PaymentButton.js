@@ -52,8 +52,7 @@ const PaymentButton = ({ plan, amount, billingCycle, onSuccess }) => {
     try {
       // Check environment variables
       console.log('Environment check:', {
-        CASHFREE_ENVIRONMENT:process.env.REACT_APP_CASHFREE_ENVIRONMENT === 'production' ? 'production' : 'sandbox',
-        API_URL: process.env.REACT_APP_API_URL
+        CASHFREE_ENVIRONMENT:process.env.REACT_APP_CASHFREE_ENVIRONMENT === 'production' ? 'production' : 'sandbox'
       });
 
       const cashfree = await load({
@@ -89,28 +88,8 @@ const PaymentButton = ({ plan, amount, billingCycle, onSuccess }) => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        let errorData;
-        try {
-          errorData = JSON.parse(errorText);
-        } catch (e) {
-          errorData = { error: errorText };
-        }
-        
-        console.error('Payment request failed:', response.status, response.statusText, errorData);
-        
-        // Provide user-friendly error messages based on the error
-        let userMessage = 'Payment failed. Please try again.';
-        if (errorData.cashfreeError) {
-          if (errorData.error.includes('credentials')) {
-            userMessage = 'Payment service configuration error. Please contact support.';
-          } else if (errorData.error.includes('payment_session_id')) {
-            userMessage = 'Payment session error. Please refresh the page and try again.';
-          } else if (errorData.environment === 'production' && errorData.error.includes('invalid')) {
-            userMessage = 'Payment service temporarily unavailable. Please try again in a few minutes.';
-          }
-        }
-        
-        throw new Error(userMessage);
+        console.error('Payment request failed:', response.status, response.statusText, errorText);
+        throw new Error(`Failed to create order: ${response.status} ${response.statusText}. ${errorText}`);
       }
 
       const orderData = await response.json();
@@ -118,7 +97,7 @@ const PaymentButton = ({ plan, amount, billingCycle, onSuccess }) => {
       
       if (!orderData.payment_session_id) {
         console.error('Invalid order response:', orderData);
-        throw new Error('Payment session could not be created. Please refresh the page and try again.');
+        throw new Error('Invalid response from payment server: missing payment_session_id');
       }
       
       const checkoutOptions = {
@@ -213,7 +192,7 @@ const PaymentButton = ({ plan, amount, billingCycle, onSuccess }) => {
       
     } catch (error) {
       console.error('Payment error:', error);
-      setError(error.message);
+      setError(`Payment failed: ${error.message}`);
     } finally {
       setIsLoading(false);
     }

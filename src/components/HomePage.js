@@ -84,8 +84,8 @@ const HomePage = ({ setActiveTab }) => {
     }
   };
 
-  const needsSubscription = requiredCredits > 0 && currentCredits < requiredCredits;
   
+  const needsSubscription = currentCredits === 0 && !loading && !extractedData;
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: needsSubscription ? (acceptedFiles) => {} : onDrop, // Disable onDrop when subscription needed
     accept: {
@@ -185,8 +185,8 @@ const HomePage = ({ setActiveTab }) => {
     <div className="home-page">
       <section className="hero-section">
         <div className="hero-content">
-          <h1>The World's most trusted Legal Document Information</h1>
-          <p>Upload any legal document to extract information and bookmarks for PDFs in seconds</p>
+          <h1>The World's most trusted Medical Document Information</h1>
+          <p>Upload any medical document to extract information and bookmarks in seconds</p>
           
           
           
@@ -294,7 +294,7 @@ const HomePage = ({ setActiveTab }) => {
               <i className="fas fa-university"></i>
             </div>
             <h3>Institutional</h3>
-            <p>We've provid our services to thousands of law Firms & legal Professionals.</p>
+            <p>We've provide our services to several hospitals & medical Professionals.</p>
           </div>
           
           <div className="feature-item">
@@ -302,7 +302,7 @@ const HomePage = ({ setActiveTab }) => {
               <i className="fas fa-bullseye"></i>
             </div>
             <h3>Accurate</h3>
-            <p>We aim for top results but if it doesn't get to your expectations, <a href="mailto:contact@ecase.site">email us</a> and we'll fix it.</p>
+            <p>We aim for top results but if it doesn't get to your expectations, <a href="mailto:contact@ehealthreport.site">email us</a> and we'll fix it.</p>
           </div>
         </div>
       </section>
@@ -344,7 +344,7 @@ const HomePage = ({ setActiveTab }) => {
         <div className="contact-info">
           <div className="contact-item">
             <i className="fas fa-envelope"></i>
-            <span>contact@ecase.site</span>
+            <span>contact@ehealthreport.site</span>
           </div>
           <div className="contact-item">
             <i className="fas fa-phone-alt"></i>

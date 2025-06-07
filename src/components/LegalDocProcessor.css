@@ -276,7 +276,7 @@
   gap: 1rem;
   margin-bottom: 0rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #eee;
+  /* border-bottom: 1px solid #eee; */
 }
 
 /* Ensure extracted info takes full width in this view */
@@ -386,9 +386,9 @@
 }
 
 .extracted-section {
-  margin-bottom: 2rem;
-  border-bottom: 1.2px solid #eee !important;
-  padding-bottom: 1.5rem;
+  margin-bottom: 3rem;
+  border-bottom: 0px solid #e2e8f0 !important;
+  padding-bottom: 2rem;
   padding-right: 0;
   width: 100%;
   box-sizing: border-box;
@@ -407,35 +407,57 @@
 
 .data-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
   width: 100%;
   box-sizing: border-box;
+  margin-top: 0.5rem;
 }
 
 .data-item {
-  margin-bottom: 0.5rem;
-  min-width: 280px;
+  margin-bottom: 0;
+  min-width: 300px;
   width: 100%;
   box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.data-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e0;
 }
 
 .data-label {
-  font-size: 0.85rem;
-  color: #7f8c8d;
-  margin-bottom: 0.25rem;
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  padding: 1.25rem 1.25rem 0 1.25rem;
 }
 
 .data-value {
-  font-size: 1rem;
-  color: #2c3e50;
-  line-height: 1.4;
+  font-size: 0.95rem;
+  color: #2d3748;
+  line-height: 1.7;
   word-break: break-word;
-  background-color: white;
-  border-radius: 5px;
-  padding: 0.6rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e9ecef;
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  box-shadow: none;
+  border: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: 0.01em;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  min-height: 48px;
 }
 
 .acts-section {
@@ -539,11 +561,11 @@
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .legal-doc-processor-container {
-    padding: 0.5rem;
+    padding: 1rem;
   }
   
   .file-selection-container {
-    width: 100%;
+    gap: 0.75rem;
   }
   
   .radio-group {
@@ -552,29 +574,107 @@
   
   .results-header {
     flex-direction: column;
-    gap: 1rem;
     align-items: flex-start;
+    gap: 1rem;
   }
   
   .data-grid {
     grid-template-columns: 1fr;
-    min-width: 100%;
-    padding: 0;
-    margin: 0;
+    gap: 1rem;
   }
   
   .data-item {
-    width: 100%;
-    min-width: 100%;
+    padding: 0.75rem;
   }
   
   .document-info {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
   }
   
   .panel-content {
-    padding: 10px;
+    padding: 1rem;
+  }
+
+  /* PDF Viewer Mobile Styles */
+  .split-view {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .pdf-view,
+  .data-view {
+    width: 100%;
+    height: auto;
+    min-height: 50vh;
+  }
+
+  .pdf-view {
+    order: 2;
+  }
+
+  .data-view {
+    order: 1;
+  }
+
+  .pdf-document-container {
+    padding: 0.5rem;
+  }
+
+  .pdf-page-wrapper {
+    margin-bottom: 1rem;
+  }
+
+  .page-number-indicator {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  /* Bookmark Editor Mobile Styles */
+  .bookmark-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .bookmark-field-group,
+  .bookmark-page-group {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .bookmark-page-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .bookmark-page-group .data-item {
+    min-width: unset;
+  }
+
+  .bookmark-actions-group {
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  .bookmark-action-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0.9rem;
+  }
+
+  .add-bookmark-btn {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .zoom-controls {
+    gap: 0.75rem;
+  }
+
+  .zoom-button {
+    width: 40px;
+    height: 40px;
   }
 }
 
@@ -621,77 +721,89 @@
 }
 
 .pdf-viewer-container {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  min-width: 0;
-  width: 100%;
-}
-
-.pdf-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
+  height: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
   background-color: #f8f9fa;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 10px;
-}
-
-.pdf-navigation, .pdf-zoom {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.pdf-nav-button, .pdf-zoom-button {
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 0.8rem;
-  color: #555;
-  transition: all 0.2s ease;
-}
-
-.pdf-nav-button:hover:not(:disabled), 
-.pdf-zoom-button:hover:not(:disabled) {
-  background-color: #f1f5f9;
-  color: #3498db;
-}
-
-.pdf-nav-button:disabled, 
-.pdf-zoom-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.page-info, .zoom-level {
-  font-size: 0.9rem;
-  color: #555;
 }
 
 .pdf-document-container {
   flex: 1;
-  overflow: auto !important;
-  display: flex;
-  justify-content: flex-start;
-  background-color: #f1f1f1;
+  overflow: auto;
+  padding: 1rem;
+  background-color: #ffffff;
   width: 100%;
-  padding: 20px;
   box-sizing: border-box;
 }
 
-.pdf-document {
-  margin: 0;
-  max-width: none !important;
+.pdf-page-wrapper {
+  margin-bottom: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  min-width: 100%;
 }
 
-.pdf-page {
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-width: none !important;
-  width: auto !important;
+.page-number-indicator {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  position: sticky;
+  top: 0.5rem;
+  z-index: 10;
+}
+
+.pdf-controls {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.zoom-button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.zoom-button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.zoom-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.zoom-level {
+  font-weight: 500;
+  color: #2c3e50;
+  min-width: 50px;
+  text-align: center;
 }
 
 /* Toggle Button Styles */
@@ -845,15 +957,26 @@
   box-sizing: border-box;
 }
 
+.editable-field::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 0.7;
+}
+
 .editable-field:focus {
   border-color: #3498db;
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
   outline: none;
 }
 
+.editable-field:focus::placeholder {
+  opacity: 0.5;
+}
+
 .editable-field.textarea {
   min-height: 100px;
   resize: vertical;
+  font-family: inherit;
 }
 
 .editable-field.textarea.full-width {
@@ -869,24 +992,10 @@
   padding: 6px;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .split-view {
-    flex-direction: column;
-    height: auto;
-  }
-  
-  .pdf-view,
-  .data-view {
-    width: 100%;
-  }
-  
-  .pdf-view {
-    border-right: none;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 20px;
-    height: 500px;
-  }
+.acts-table.editable input::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 0.7;
 }
 
 /* Inspection Description */
@@ -1742,4 +1851,3146 @@
 
 .subscribe-button i {
   font-size: 1rem;
-} 
+}
+
+.editable-field {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #2c3e50;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.editable-field::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.editable-field:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+}
+
+.editable-field:focus::placeholder {
+  opacity: 0.5;
+}
+
+.editable-field.textarea {
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.editable-field.textarea.full-width {
+  width: 100%;
+  min-height: 150px;
+  box-sizing: border-box;
+}
+
+.acts-table.editable input {
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+}
+
+.acts-table.editable input::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* PDF Viewer Improvements */
+.pdf-viewer-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f8f9fa;
+}
+
+.pdf-document-container {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+  background-color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pdf-page-wrapper {
+  margin-bottom: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  min-width: 100%;
+}
+
+.page-number-indicator {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  position: sticky;
+  top: 0.5rem;
+  z-index: 10;
+}
+
+.pdf-controls {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.zoom-button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.zoom-button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.zoom-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.zoom-level {
+  font-weight: 500;
+  color: #2c3e50;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Bookmark Editor Improvements */
+.bookmarks-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bookmark-data-item {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.bookmark-data-item:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bookmark-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.bookmark-field-group {
+  flex: 2;
+  min-width: 200px;
+}
+
+.bookmark-page-group {
+  flex: 1;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  min-width: 300px;
+}
+
+.bookmark-page-group .data-item {
+  flex: 1;
+  min-width: 80px;
+}
+
+.bookmark-actions-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-top: 1.5rem;
+}
+
+.bookmark-action-btn {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 0.8rem;
+}
+
+.bookmark-action-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.bookmark-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bookmark-action-btn.delete:hover {
+  background-color: #fee;
+  border-color: #f88;
+  color: #d33;
+}
+
+.bookmark-action-btn.move-up:hover,
+.bookmark-action-btn.move-down:hover {
+  background-color: #e8f4fd;
+  border-color: #3498db;
+  color: #3498db;
+}
+
+.add-bookmark-container {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.add-bookmark-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  /* transition: all 0.3s ease; */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.add-bookmark-btn:hover {
+  background-color: #2980b9;
+  /* transform: translateY(-1px); */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive styles for bookmark editor */
+@media (max-width: 768px) {
+  .bookmark-editor-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .editable-bookmark {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .bookmark-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.edit-panels {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.edit-panel {
+  flex: 1;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.edit-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+  background: var(--primary-dark);
+}
+
+.edit-button i {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .edit-panels {
+    flex-direction: column;
+  }
+  
+  .edit-panel {
+    width: 100%;
+  }
+}
+
+.edit-mode-toggle {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.toggle-button {
+  flex: 1;
+  background: white;
+  border: 1px solid var(--border-color);
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: var(--text-color);
+}
+
+.toggle-button:hover {
+  background: #f1f5f9;
+}
+
+.toggle-button.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.toggle-button i {
+  font-size: 1.1rem;
+}
+
+.edit-panel {
+  flex: 1;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.edit-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+  background: var(--primary-dark);
+}
+
+.edit-button i {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .edit-mode-toggle {
+    flex-direction: column;
+  }
+  
+  .toggle-button {
+    width: 100%;
+  }
+}
+
+.bookmarks-section {
+  margin-top: 30px;
+  border-top: 2px solid #e0e0e0;
+  padding-top: 20px;
+}
+
+.bookmarks-section h3 {
+  color: #3f51b5;
+  margin-bottom: 15px;
+}
+
+.bookmarks-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+  border-radius: 4px;
+}
+
+.bookmarks-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.bookmark-action-btn.download {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bookmark-action-btn.download:hover {
+  background-color: #303f9f;
+}
+
+.bookmarks-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.bookmarks-list .bookmark-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.bookmarks-list .bookmark-item:hover {
+  background-color: #f9f9f9;
+}
+
+.bookmarks-list .bookmark-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bookmarks-list .bookmark-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.bookmarks-list .bookmark-title i.fa-bookmark {
+  color: #3f51b5;
+}
+
+.bookmarks-list .bookmark-title i.fa-angle-right {
+  color: #757575;
+}
+
+.bookmarks-list .bookmark-page {
+  color: #757575;
+  font-size: 0.85em;
+  background-color: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.no-bookmarks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  color: #757575;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.no-bookmarks i {
+  font-size: 36px;
+  margin-bottom: 15px;
+  color: #9e9e9e;
+}
+
+/* Improve the visual separation between case details and bookmarks */
+.extracted-section:not(:last-child) {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* --- Styles specific to Inspect Mode Panel --- */
+.panel-content .data-grid {
+  /* Override grid columns for potentially narrower space */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Smaller min width */
+  gap: 0.75rem; /* Slightly smaller gap */
+  max-width: none; /* Ensure no max-width limit inside panel */
+}
+
+.panel-content .data-item {
+  min-width: unset; /* Remove min-width constraint inside panel */
+}
+
+/* Credit Info Styles */
+.credit-info {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.credit-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+.credit-display i {
+  color: #ffc107;
+  font-size: 18px;
+}
+
+.credit-requirement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.credit-requirement.sufficient {
+  background: #d1edff;
+  color: #0c63e4;
+  border: 1px solid #bee5eb;
+}
+
+.credit-requirement.sufficient i {
+  color: #28a745;
+}
+
+.credit-requirement.insufficient {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.credit-requirement.insufficient i {
+  color: #dc3545;
+}
+
+.subscription-prompt {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.subscription-prompt i {
+  color: #856404;
+  font-size: 20px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.subscription-prompt p {
+  color: #856404;
+  margin: 8px 0 12px 0;
+  font-weight: 500;
+}
+
+.subscription-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.subscription-button:hover {
+  background: #0056b3;
+}
+
+/* Subscription Content Styles */
+.subscription-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 0rem !important;
+}
+
+.subscription-icon {
+  font-size: 3rem !important;
+  color: #ebe0de !important;
+}
+
+.subscription-message h3 {
+  margin: 0 0 0.5rem 0;
+  color: #e0d1cf;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.subscription-message p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.subscribe-button {
+  background-color: #f7f7f7;
+  color: #0d33cc;
+  border: 1px solid #0d33cc;
+  border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0!important;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 0.5rem 0;
+}
+
+.subscribe-button:hover {
+  background-color: #3b5bdb;
+  color: white;
+}
+
+.subscribe-button i {
+  font-size: 1rem;
+}
+
+.editable-field {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #2c3e50;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.editable-field::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.editable-field:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+}
+
+.editable-field:focus::placeholder {
+  opacity: 0.5;
+}
+
+.editable-field.textarea {
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.editable-field.textarea.full-width {
+  width: 100%;
+  min-height: 150px;
+  box-sizing: border-box;
+}
+
+.acts-table.editable input {
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+}
+
+.acts-table.editable input::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* PDF Viewer Improvements */
+.pdf-viewer-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f8f9fa;
+}
+
+.pdf-document-container {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+  background-color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pdf-page-wrapper {
+  margin-bottom: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  min-width: 100%;
+}
+
+.page-number-indicator {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  position: sticky;
+  top: 0.5rem;
+  z-index: 10;
+}
+
+.pdf-controls {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.zoom-button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.zoom-button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.zoom-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.zoom-level {
+  font-weight: 500;
+  color: #2c3e50;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Bookmark Editor Improvements */
+.bookmarks-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bookmark-data-item {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.bookmark-data-item:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bookmark-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.bookmark-field-group {
+  flex: 2;
+  min-width: 200px;
+}
+
+.bookmark-page-group {
+  flex: 1;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  min-width: 300px;
+}
+
+.bookmark-page-group .data-item {
+  flex: 1;
+  min-width: 80px;
+}
+
+.bookmark-actions-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-top: 1.5rem;
+}
+
+.bookmark-action-btn {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 0.8rem;
+}
+
+.bookmark-action-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.bookmark-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bookmark-action-btn.delete:hover {
+  background-color: #fee;
+  border-color: #f88;
+  color: #d33;
+}
+
+.bookmark-action-btn.move-up:hover,
+.bookmark-action-btn.move-down:hover {
+  background-color: #e8f4fd;
+  border-color: #3498db;
+  color: #3498db;
+}
+
+.add-bookmark-container {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.add-bookmark-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  /* transition: all 0.3s ease; */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.add-bookmark-btn:hover {
+  background-color: #2980b9;
+  /* transform: translateY(-1px); */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive styles for bookmark editor */
+@media (max-width: 768px) {
+  .bookmark-editor-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .editable-bookmark {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .bookmark-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.edit-panels {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.edit-panel {
+  flex: 1;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.edit-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+  background: var(--primary-dark);
+}
+
+.edit-button i {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .edit-panels {
+    flex-direction: column;
+  }
+  
+  .edit-panel {
+    width: 100%;
+  }
+}
+
+.edit-mode-toggle {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.toggle-button {
+  flex: 1;
+  background: white;
+  border: 1px solid var(--border-color);
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: var(--text-color);
+}
+
+.toggle-button:hover {
+  background: #f1f5f9;
+}
+
+.toggle-button.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.toggle-button i {
+  font-size: 1.1rem;
+}
+
+.edit-panel {
+  flex: 1;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.edit-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+  background: var(--primary-dark);
+}
+
+.edit-button i {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .edit-mode-toggle {
+    flex-direction: column;
+  }
+  
+  .toggle-button {
+    width: 100%;
+  }
+}
+
+.bookmarks-section {
+  margin-top: 30px;
+  border-top: 2px solid #e0e0e0;
+  padding-top: 20px;
+}
+
+.bookmarks-section h3 {
+  color: #3f51b5;
+  margin-bottom: 15px;
+}
+
+.bookmarks-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+  border-radius: 4px;
+}
+
+.bookmarks-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.bookmark-action-btn.download {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bookmark-action-btn.download:hover {
+  background-color: #303f9f;
+}
+
+.bookmarks-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.bookmarks-list .bookmark-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.bookmarks-list .bookmark-item:hover {
+  background-color: #f9f9f9;
+}
+
+.bookmarks-list .bookmark-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bookmarks-list .bookmark-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.bookmarks-list .bookmark-title i.fa-bookmark {
+  color: #3f51b5;
+}
+
+.bookmarks-list .bookmark-title i.fa-angle-right {
+  color: #757575;
+}
+
+.bookmarks-list .bookmark-page {
+  color: #757575;
+  font-size: 0.85em;
+  background-color: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.no-bookmarks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  color: #757575;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.no-bookmarks i {
+  font-size: 36px;
+  margin-bottom: 15px;
+  color: #9e9e9e;
+}
+
+/* Improve the visual separation between case details and bookmarks */
+.extracted-section:not(:last-child) {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* --- Styles specific to Inspect Mode Panel --- */
+.panel-content .data-grid {
+  /* Override grid columns for potentially narrower space */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Smaller min width */
+  gap: 0.75rem; /* Slightly smaller gap */
+  max-width: none; /* Ensure no max-width limit inside panel */
+}
+
+.panel-content .data-item {
+  min-width: unset; /* Remove min-width constraint inside panel */
+}
+
+/* Credit Info Styles */
+.credit-info {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.credit-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+.credit-display i {
+  color: #ffc107;
+  font-size: 18px;
+}
+
+.credit-requirement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.credit-requirement.sufficient {
+  background: #d1edff;
+  color: #0c63e4;
+  border: 1px solid #bee5eb;
+}
+
+.credit-requirement.sufficient i {
+  color: #28a745;
+}
+
+.credit-requirement.insufficient {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.credit-requirement.insufficient i {
+  color: #dc3545;
+}
+
+.subscription-prompt {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.subscription-prompt i {
+  color: #856404;
+  font-size: 20px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.subscription-prompt p {
+  color: #856404;
+  margin: 8px 0 12px 0;
+  font-weight: 500;
+}
+
+.subscription-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.subscription-button:hover {
+  background: #0056b3;
+}
+
+/* Subscription Content Styles */
+.subscription-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 0rem !important;
+}
+
+.subscription-icon {
+  font-size: 3rem !important;
+  color: #ebe0de !important;
+}
+
+.subscription-message h3 {
+  margin: 0 0 0.5rem 0;
+  color: #e0d1cf;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.subscription-message p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.subscribe-button {
+  background-color: #f7f7f7;
+  color: #0d33cc;
+  border: 1px solid #0d33cc;
+  border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0!important;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 0.5rem 0;
+}
+
+.subscribe-button:hover {
+  background-color: #3b5bdb;
+  color: white;
+}
+
+.subscribe-button i {
+  font-size: 1rem;
+}
+
+.editable-field {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #2c3e50;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.editable-field::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.editable-field:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+}
+
+.editable-field:focus::placeholder {
+  opacity: 0.5;
+}
+
+.editable-field.textarea {
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.editable-field.textarea.full-width {
+  width: 100%;
+  min-height: 150px;
+  box-sizing: border-box;
+}
+
+.acts-table.editable input {
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+}
+
+.acts-table.editable input::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* PDF Viewer Improvements */
+.pdf-viewer-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f8f9fa;
+}
+
+.pdf-document-container {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+  background-color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pdf-page-wrapper {
+  margin-bottom: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  min-width: 100%;
+}
+
+.page-number-indicator {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  position: sticky;
+  top: 0.5rem;
+  z-index: 10;
+}
+
+.pdf-controls {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.zoom-button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.zoom-button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.zoom-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.zoom-level {
+  font-weight: 500;
+  color: #2c3e50;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Bookmark Editor Improvements */
+.bookmarks-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bookmark-data-item {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.bookmark-data-item:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bookmark-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.bookmark-field-group {
+  flex: 2;
+  min-width: 200px;
+}
+
+.bookmark-page-group {
+  flex: 1;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  min-width: 300px;
+}
+
+.bookmark-page-group .data-item {
+  flex: 1;
+  min-width: 80px;
+}
+
+.bookmark-actions-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-top: 1.5rem;
+}
+
+.bookmark-action-btn {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 0.8rem;
+}
+
+.bookmark-action-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.bookmark-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bookmark-action-btn.delete:hover {
+  background-color: #fee;
+  border-color: #f88;
+  color: #d33;
+}
+
+.bookmark-action-btn.move-up:hover,
+.bookmark-action-btn.move-down:hover {
+  background-color: #e8f4fd;
+  border-color: #3498db;
+  color: #3498db;
+}
+
+.add-bookmark-container {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.add-bookmark-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  /* transition: all 0.3s ease; */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.add-bookmark-btn:hover {
+  background-color: #2980b9;
+  /* transform: translateY(-1px); */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive styles for bookmark editor */
+@media (max-width: 768px) {
+  .bookmark-editor-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .editable-bookmark {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .bookmark-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.edit-panels {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.edit-panel {
+  flex: 1;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.edit-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+  background: var(--primary-dark);
+}
+
+.edit-button i {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .edit-panels {
+    flex-direction: column;
+  }
+  
+  .edit-panel {
+    width: 100%;
+  }
+}
+
+.edit-mode-toggle {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.toggle-button {
+  flex: 1;
+  background: white;
+  border: 1px solid var(--border-color);
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: var(--text-color);
+}
+
+.toggle-button:hover {
+  background: #f1f5f9;
+}
+
+.toggle-button.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.toggle-button i {
+  font-size: 1.1rem;
+}
+
+.edit-panel {
+  flex: 1;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.edit-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+  background: var(--primary-dark);
+}
+
+.edit-button i {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .edit-mode-toggle {
+    flex-direction: column;
+  }
+  
+  .toggle-button {
+    width: 100%;
+  }
+}
+
+.bookmarks-section {
+  margin-top: 30px;
+  border-top: 2px solid #e0e0e0;
+  padding-top: 20px;
+}
+
+.bookmarks-section h3 {
+  color: #3f51b5;
+  margin-bottom: 15px;
+}
+
+.bookmarks-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+  border-radius: 4px;
+}
+
+.bookmarks-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.bookmark-action-btn.download {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bookmark-action-btn.download:hover {
+  background-color: #303f9f;
+}
+
+.bookmarks-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.bookmarks-list .bookmark-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.bookmarks-list .bookmark-item:hover {
+  background-color: #f9f9f9;
+}
+
+.bookmarks-list .bookmark-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bookmarks-list .bookmark-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.bookmarks-list .bookmark-title i.fa-bookmark {
+  color: #3f51b5;
+}
+
+.bookmarks-list .bookmark-title i.fa-angle-right {
+  color: #757575;
+}
+
+.bookmarks-list .bookmark-page {
+  color: #757575;
+  font-size: 0.85em;
+  background-color: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.no-bookmarks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  color: #757575;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.no-bookmarks i {
+  font-size: 36px;
+  margin-bottom: 15px;
+  color: #9e9e9e;
+}
+
+/* Improve the visual separation between case details and bookmarks */
+.extracted-section:not(:last-child) {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* --- Styles specific to Inspect Mode Panel --- */
+.panel-content .data-grid {
+  /* Override grid columns for potentially narrower space */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Smaller min width */
+  gap: 0.75rem; /* Slightly smaller gap */
+  max-width: none; /* Ensure no max-width limit inside panel */
+}
+
+.panel-content .data-item {
+  min-width: unset; /* Remove min-width constraint inside panel */
+}
+
+/* Credit Info Styles */
+.credit-info {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.credit-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 10px;
+}
+
+.credit-display i {
+  color: #ffc107;
+  font-size: 18px;
+}
+
+.credit-requirement {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.credit-requirement.sufficient {
+  background: #d1edff;
+  color: #0c63e4;
+  border: 1px solid #bee5eb;
+}
+
+.credit-requirement.sufficient i {
+  color: #28a745;
+}
+
+.credit-requirement.insufficient {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
+}
+
+.credit-requirement.insufficient i {
+  color: #dc3545;
+}
+
+.subscription-prompt {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.subscription-prompt i {
+  color: #856404;
+  font-size: 20px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.subscription-prompt p {
+  color: #856404;
+  margin: 8px 0 12px 0;
+  font-weight: 500;
+}
+
+.subscription-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.subscription-button:hover {
+  background: #0056b3;
+}
+
+/* Subscription Content Styles */
+.subscription-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 0rem !important;
+}
+
+.subscription-icon {
+  font-size: 3rem !important;
+  color: #ebe0de !important;
+}
+
+.subscription-message h3 {
+  margin: 0 0 0.5rem 0;
+  color: #e0d1cf;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.subscription-message p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+.subscribe-button {
+  background-color: #f7f7f7;
+  color: #0d33cc;
+  border: 1px solid #0d33cc;
+  border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0!important;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 0.5rem 0;
+}
+
+.subscribe-button:hover {
+  background-color: #3b5bdb;
+  color: white;
+}
+
+.subscribe-button i {
+  font-size: 1rem;
+}
+
+.editable-field {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #2c3e50;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.editable-field::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+.editable-field:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+}
+
+.editable-field:focus::placeholder {
+  opacity: 0.5;
+}
+
+.editable-field.textarea {
+  min-height: 100px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.editable-field.textarea.full-width {
+  width: 100%;
+  min-height: 150px;
+  box-sizing: border-box;
+}
+
+.acts-table.editable input {
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px;
+}
+
+.acts-table.editable input::placeholder {
+  color: #888;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* PDF Viewer Improvements */
+.pdf-viewer-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f8f9fa;
+}
+
+.pdf-document-container {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+  background-color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pdf-page-wrapper {
+  margin-bottom: 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  min-width: 100%;
+}
+
+.page-number-indicator {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  position: sticky;
+  top: 0.5rem;
+  z-index: 10;
+}
+
+.pdf-controls {
+  background-color: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  padding: 0.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.zoom-button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+
+.zoom-button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.zoom-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.zoom-level {
+  font-weight: 500;
+  color: #2c3e50;
+  min-width: 50px;
+  text-align: center;
+}
+
+/* Bookmark Editor Improvements */
+.bookmarks-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bookmark-data-item {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.bookmark-data-item:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.bookmark-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.bookmark-field-group {
+  flex: 2;
+  min-width: 200px;
+}
+
+.bookmark-page-group {
+  flex: 1;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  min-width: 300px;
+}
+
+.bookmark-page-group .data-item {
+  flex: 1;
+  min-width: 80px;
+}
+
+.bookmark-actions-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  margin-top: 1.5rem;
+}
+
+.bookmark-action-btn {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: 0.8rem;
+}
+
+.bookmark-action-btn:hover:not(:disabled) {
+  background-color: #f0f0f0;
+  border-color: #bbb;
+}
+
+.bookmark-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bookmark-action-btn.delete:hover {
+  background-color: #fee;
+  border-color: #f88;
+  color: #d33;
+}
+
+.bookmark-action-btn.move-up:hover,
+.bookmark-action-btn.move-down:hover {
+  background-color: #e8f4fd;
+  border-color: #3498db;
+  color: #3498db;
+}
+
+.add-bookmark-container {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.add-bookmark-btn {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  /* transition: all 0.3s ease; */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.add-bookmark-btn:hover {
+  background-color: #2980b9;
+  /* transform: translateY(-1px); */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive styles for bookmark editor */
+@media (max-width: 768px) {
+  .bookmark-editor-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .editable-bookmark {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .bookmark-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .tab-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.edit-panels {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.edit-panel {
+  flex: 1;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.edit-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+  background: var(--primary-dark);
+}
+
+.edit-button i {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .edit-panels {
+    flex-direction: column;
+  }
+  
+  .edit-panel {
+    width: 100%;
+  }
+}
+
+.edit-mode-toggle {
+  display: flex;
+  gap: 10px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.toggle-button {
+  flex: 1;
+  background: white;
+  border: 1px solid var(--border-color);
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: var(--text-color);
+}
+
+.toggle-button:hover {
+  background: #f1f5f9;
+}
+
+.toggle-button.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.toggle-button i {
+  font-size: 1.1rem;
+}
+
+.edit-panel {
+  flex: 1;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 15px 20px;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--primary-color);
+}
+
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.edit-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.edit-button:hover {
+  background: var(--primary-dark);
+}
+
+.edit-button i {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .edit-mode-toggle {
+    flex-direction: column;
+  }
+  
+  .toggle-button {
+    width: 100%;
+  }
+}
+
+.bookmarks-section {
+  margin-top: 30px;
+  border-top: 2px solid #e0e0e0;
+  padding-top: 20px;
+}
+
+.bookmarks-section h3 {
+  color: #3f51b5;
+  margin-bottom: 15px;
+}
+
+.bookmarks-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+  border-radius: 4px;
+}
+
+.bookmarks-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.bookmark-action-btn.download {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bookmark-action-btn.download:hover {
+  background-color: #303f9f;
+}
+
+.bookmarks-list {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.bookmarks-list .bookmark-item {
+  padding: 10px 15px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.bookmarks-list .bookmark-item:hover {
+  background-color: #f9f9f9;
+}
+
+.bookmarks-list .bookmark-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bookmarks-list .bookmark-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.bookmarks-list .bookmark-title i.fa-bookmark {
+  color: #3f51b5;
+}
+
+.bookmarks-list .bookmark-title i.fa-angle-right {
+  color: #757575;
+}
+
+.bookmarks-list .bookmark-page {
+  color: #757575;
+  font-size: 0.85em;
+  background-color: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.no-bookmarks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  color: #757575;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+
+.no-bookmarks i {
+  font-size: 36px;
+  margin-bottom: 15px;
+  color: #9e9e9e;
+}
+
+/* Improve the visual separation between case details and bookmarks */
+.extracted-section:not(:last-child) {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* --- Styles specific to Inspect Mode Panel --- */
+.panel-content .data-grid {
+  /* Override grid columns for potentially narrower space */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Smaller min width */
+  gap: 0.75rem; /* Slightly smaller gap */
+  max-width: none; /* Ensure no max-width limit inside panel */
+}
+
+.panel-content .data-item {
+  min-width: unset; /* Remove min-width constraint inside panel */
+}
+
+/* Health Indicators Styling */
+.health-indicators-container {
+  margin: 1rem 0;
+}
+
+.health-indicators-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.health-indicator-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #6b7280;
+  transition: all 0.2s ease;
+}
+
+.health-indicator-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.indicator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.parameter-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0;
+  flex: 1;
+}
+
+.severity-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.indicator-details {
+  space-y: 0.5rem;
+}
+
+.indicator-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.indicator-row:last-child {
+  border-bottom: none;
+}
+
+.indicator-row .label {
+  font-weight: 500;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+
+.indicator-row .value {
+  font-weight: 600;
+  color: #1f2937;
+  text-align: right;
+  max-width: 60%;
+  word-wrap: break-word;
+}
+
+.no-indicators {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-style: italic;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 2px dashed #d1d5db;
+}
+
+/* Critical Alerts Section Styling */
+.extracted-section.critical-alerts {
+  /* background: linear-gradient(135deg, #fef2f2, #fff5f5); */
+  /* border: 2px solid #fca5a5; */
+  border-radius: 12px;
+  position: relative;
+}
+
+.extracted-section.critical-alerts::before {
+  /* content: "⚠️"; */
+  position: absolute;
+  top: -8px;
+  right: 20px;
+  background: #dc2626;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 50%;
+  font-size: 1.2rem;
+}
+
+.extracted-section.critical-alerts h3 {
+  color: #dc2626;
+}
+
+/* Health Section Headers with Icons */
+.extracted-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #2d3748;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Enhanced text areas for health insights */
+.data-item .data-value {
+  padding: 1.25rem;
+  border-radius: 8px;
+  background: #fefefe;
+  border: 1px solid #e1e5e9;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  color: #2d3748;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: 0.01em;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.data-item .data-value:not(:empty) {
+  min-height: 60px;
+}
+
+.data-item .data-value p {
+  margin: 0 0 0.75rem 0;
+  line-height: 1.7;
+}
+
+.data-item .data-value p:last-child {
+  margin-bottom: 0;
+}
+
+/* Improved formatting for lists within text */
+.data-item .data-value ul,
+.data-item .data-value ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.data-item .data-value li {
+  margin-bottom: 0.25rem;
+  line-height: 1.6;
+}
+
+/* Better typography for headings within content */
+.data-item .data-value h1,
+.data-item .data-value h2,
+.data-item .data-value h3,
+.data-item .data-value h4 {
+  margin: 1rem 0 0.5rem 0;
+  font-weight: 600;
+  color: #1a202c;
+}
+
+.data-item .data-value h1:first-child,
+.data-item .data-value h2:first-child,
+.data-item .data-value h3:first-child,
+.data-item .data-value h4:first-child {
+  margin-top: 0;
+}
+
+/* Responsive design for health indicators */
+@media (max-width: 768px) {
+  .health-indicators-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .indicator-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  
+  .indicator-row .value {
+    max-width: 100%;
+    text-align: left;
+  }
+}
+
+/* Health status colors for text content */
+.health-normal {
+  color: #059669;
+  background-color: #ecfdf5;
+  padding: 0.125rem 0.25rem;
+  border-radius: 4px;
+}
+
+.health-warning {
+  color: #d97706;
+  background-color: #fffbeb;
+  padding: 0.125rem 0.25rem;
+  border-radius: 4px;
+}
+
+.health-critical {
+  color: #dc2626;
+  background-color: #fef2f2;
+  padding: 0.125rem 0.25rem;
+  border-radius: 4px;
+}
+
+/* Enhanced textarea styling for health content */
+.editable-field.textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Health summary specific styling for larger content area */
+.editable-field.textarea[rows="8"] {
+  min-height: 180px;
+}
+
+/* Bullet points styling for medical recommendations */
+.bullet-points-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bullet-point-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  line-height: 1.6;
+}
+
+.bullet-icon {
+  color: #6b7280;
+  font-weight: bold;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.bullet-text {
+  flex: 1;
+  color: #374151;
+  line-height: 1.7;
+}
+
+/* Section-specific styling */
+.extracted-section:nth-child(2) h3 { /* Report Summary */
+  color: #3b82f6;
+}
+
+.extracted-section:nth-child(3) h3 { /* Key Health Indicators */
+  color: #10b981;
+}
+
+.extracted-section:nth-child(4) h3 { /* AI Insights */
+  color: #8b5cf6;
+}
+
+
+.extracted-section:nth-child(5) h3 { /* Demographic Interpretations */
+  color: #6366f1;
+}
+.extracted-section:nth-child(6) h3 { /* Medical Recommendations */
+  color: #059669;
+}
+
+.extracted-section:nth-child(8) h3 { /* Treatment Suggestions */
+  color: #dc2626;
+}
+
+.extracted-section:nth-child(7) h3 { /* Risk Prediction */
+  color: #f59e0b;
+}
+
+
+.extracted-section:nth-child(10) h3 { /* Health Summary */
+  color: #1f2937;
+}
+
+/* --- Enhanced Health Summary Section --- */
+.health-summary-section {
+  background-color: #f9fafb; /* Light background to define the section block */
+  border: 1px solid #e5e7eb;   /* Subtle border for the section */
+  border-radius: 12px;         /* Rounded corners for the section block */
+  padding: 2rem;               /* Generous padding inside the section block */
+  margin-top: 1.5rem;          /* Space above this section */
+  margin-bottom: 2rem;         /* Ensure consistent spacing */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.07); /* Soft shadow */
+  /* It will take full width due to .extracted-section being width: 100% */
+}
+
+.health-summary-section h3 {
+  font-size: 1.4rem;        /* Larger heading for emphasis */
+  color: #111827;           /* Darker, more prominent heading color */
+  border-bottom: 2px solid #3b82f6; /* Accent color for heading underline */
+  padding-bottom: 1rem;     /* More space for the underline */
+  margin-bottom: 1.5rem;    /* Increased space below the heading */
+}
+
+/* Ensure the .data-grid inside health-summary-section allows its single item to span full width.
+   The default 'repeat(auto-fill, minmax(320px, 1fr))' already does this if there's one item.
+   This rule explicitly simplifies it for the single health summary item. */
+.health-summary-section .data-grid {
+  display: block; /* Simplifies to a block layout for the single item */
+}
+
+.health-summary-item {
+  background-color: #ffffff; /* White background for the content card itself */
+  border: 1px solid #d1d5db;   /* Slightly stronger border for the card */
+  border-radius: 8px;
+  padding: 0; /* Padding will be handled by inner elements */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  width: 100%; /* Ensure it takes full width of its parent (.data-grid) */
+  box-sizing: border-box;
+}
+
+.health-summary-item .data-label {
+  padding: 1.25rem 1.5rem 0.5rem 1.5rem; /* Adjusted padding */
+  font-size: 0.875rem; /* Slightly larger label */
+  color: #4b5563;     /* Softer label color */
+  font-weight: 600;
+}
+
+.health-summary-value {
+  padding: 1rem 1.5rem 1.5rem 1.5rem; /* Ample padding for content */
+  font-size: 1rem;               /* Readable font size for the summary */
+  line-height: 1.75;            /* Improved line spacing for readability */
+  color: #374151;             /* Main text color */
+  min-height: 150px;           /* Good default height for displayed summary */
+  white-space: normal;         /* Respects <br /> tags, collapses other whitespace */
+  word-wrap: break-word;
+}
+
+/* Styling for the textarea in edit mode for Health Summary */
+.health-summary-textarea {
+  font-size: 1rem;
+  line-height: 1.75;
+  padding: 1rem 1.5rem;
+  /* border: 1px solid #d1d5db; */
+  border-radius: 6px;
+  background-color: #fdfdfe;
+  min-height: 220px; /* Make textarea taller, matches rows="10" better */
+  color: #374151;
+  width: 100%; /* Ensure textarea takes full width */
+  box-sizing: border-box; /* Include padding and border in width */
+}
+
+.health-summary-textarea::placeholder {
+  color: #9ca3af;
+}
+
+.health-summary-textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background-color: #ffffff;
+}
+
+/* If you want to style paragraphs or lists if healthSummary might be HTML/Markdown: */
+.health-summary-value p {
+  margin-bottom: 1em;
+}
+.health-summary-value p:last-child {
+  margin-bottom: 0;
+}
+.health-summary-value ul,
+.health-summary-value ol {
+  margin-left: 1.5em; /* Standard indentation for lists */
+  margin-bottom: 1em;
+  padding-left: 1em; /* Some browsers need padding for list markers */
+}
+.health-summary-value li {
+  margin-bottom: 0.5em;
+}
+
+/*
+  Resetting existing border-bottom from .extracted-section for .health-summary-section
+  as .health-summary-section now has its own comprehensive border and padding.
+  This prevents potential double borders or conflicting styles.
+*/
+.health-summary-section.extracted-section {
+    border-bottom: none;
+    /* padding-bottom: 2rem; Re-evaluate if original .extracted-section had padding removed by its own :last-child rule */
+}
+
+/*
+  Ensure proper spacing if the health summary section is the last child,
+  aligning with how other .extracted-section:last-child might be handled.
+*/
+.extracted-section:last-child,
+.health-summary-section.extracted-section:last-child {
+    margin-bottom: 0; /* Remove bottom margin if it's the very last section */
+}

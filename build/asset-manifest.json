@@ -1,16 +1,22 @@
 {
   "files": {
-    "main.css": "/static/css/main.95152443.css",
-    "main.js": "/static/js/main.a3c620c1.js",
-    "static/js/511.9729e1c4.chunk.js": "/static/js/511.9729e1c4.chunk.js",
-    "static/media/pdf.worker.min.mjs": "/static/media/pdf.worker.min.46b6a4de439fac162cf4.mjs",
-    "index.html": "/index.html",
-    "main.95152443.css.map": "/static/css/main.95152443.css.map",
-    "main.a3c620c1.js.map": "/static/js/main.a3c620c1.js.map",
-    "511.9729e1c4.chunk.js.map": "/static/js/511.9729e1c4.chunk.js.map"
+    "main.css": "https://ecase.site/static/css/main.6a9e0d50.css",
+    "main.js": "https://ecase.site/static/js/main.e2af281a.js",
+    "static/js/361.063523a6.chunk.js": "https://ecase.site/static/js/361.063523a6.chunk.js",
+    "static/js/673.10b8c925.chunk.js": "https://ecase.site/static/js/673.10b8c925.chunk.js",
+    "static/js/172.6edde7ff.chunk.js": "https://ecase.site/static/js/172.6edde7ff.chunk.js",
+    "static/js/511.9729e1c4.chunk.js": "https://ecase.site/static/js/511.9729e1c4.chunk.js",
+    "static/media/pdf.worker.min.mjs": "https://ecase.site/static/media/pdf.worker.min.46b6a4de439fac162cf4.mjs",
+    "index.html": "https://ecase.site/index.html",
+    "main.6a9e0d50.css.map": "https://ecase.site/static/css/main.6a9e0d50.css.map",
+    "main.e2af281a.js.map": "https://ecase.site/static/js/main.e2af281a.js.map",
+    "361.063523a6.chunk.js.map": "https://ecase.site/static/js/361.063523a6.chunk.js.map",
+    "673.10b8c925.chunk.js.map": "https://ecase.site/static/js/673.10b8c925.chunk.js.map",
+    "172.6edde7ff.chunk.js.map": "https://ecase.site/static/js/172.6edde7ff.chunk.js.map",
+    "511.9729e1c4.chunk.js.map": "https://ecase.site/static/js/511.9729e1c4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.95152443.css",
-    "static/js/main.a3c620c1.js"
+    "static/css/main.6a9e0d50.css",
+    "static/js/main.e2af281a.js"
   ]
 }

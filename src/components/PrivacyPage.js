@@ -16,7 +16,7 @@ const PrivacyPage = () => {
       <section className="policy-section">
         <h2 className="section-heading">1. Consent (Or, "How We Become Internet Friends")</h2>
         <p className="paragraph">
-          By using our humble little service at eCase.site, you're giving us a friendly nod to collect, use, and store your information as we've described below. We promise to be good stewards of your trust!
+          By using our humble little service at eHealthReport, you're giving us a friendly nod to collect, use, and store your information as we've described below. We promise to be good stewards of your trust!
         </p>
         <p className="paragraph">
           We get your consent in a few different ways (no carrier pigeons involved, we promise):
@@ -121,7 +121,7 @@ const PrivacyPage = () => {
       <section className="policy-section">
         <h2 className="section-heading">8. Your Rights (Because You Matter!)</h2>
         <p className="paragraph">
-          Depending on where you call home, you may have certain rights under laws with impressive acronyms like GDPR or CCPA. These include accessing, correcting, deleting, restricting, or porting your data. Need to exercise these rights? Just send a friendly email to <a href="mailto:contact@ecase.site" className="link">contact@ecase.site</a>. We'll respond as quickly as our little fingers can type!
+          Depending on where you call home, you may have certain rights under laws with impressive acronyms like GDPR or CCPA. These include accessing, correcting, deleting, restricting, or porting your data. Need to exercise these rights? Just send a friendly email to <a href="mailto:contact@ehealthreport" className="link">contact@ehealthreport</a>. We'll respond as quickly as our little fingers can type!
         </p>
       </section>
 
@@ -156,7 +156,7 @@ const PrivacyPage = () => {
           Questions? Concerns? Just want to chat about privacy? We'd love to hear from you:
         </p>
         <p className="paragraph">
-          Email: <a href="mailto:contact@ecase.site" className="link">contact@ecase.site</a> (we read every message!)
+          Email: <a href="mailto:contact@ehealthreport" className="link">contact@ehealthreport</a> (we read every message!)
         </p>
         <p className="paragraph">
           Twitter: <a href="https://twitter.com/@yupps8" target="_blank" rel="noopener noreferrer" className="link">@twitterhandle</a> (slide into our DMs, as the kids say)

@@ -9,23 +9,23 @@ const TermsPage = () => {
 
       {/* Last Updated */}
       <p className="last-updated">
-        Last Updated: May 5, 2025. eCase.site: Making document conversion less painful since 2025!
+        Last Updated: May 5, 2025. eHealthReport.site: Making document conversion less painful since 2025!
       </p>
 
       {/* Section 1 */}
       <section className="policy-section">
         <h2 className="section-heading">1. A Friendly Introduction</h2>
         <p className="paragraph">
-          Hello there! Welcome to <strong>eCase.site</strong> ("us," "we," or "the company that really hopes you're having a nice day").
+          Hello there! Welcome to <strong>eHealthReport</strong> ("us," "we," or "the company that really hopes you're having a nice day").
         </p>
         <p className="paragraph">
-          These Terms of Service (or as we like to call them, "The Rules of the Road") govern your journey through our website at ecase.site. We've tried to make them as painless as possible—kind of like a trip to the dentist where they actually have the good flavors of toothpaste.
+          These Terms of Service (or as we like to call them, "The Rules of the Road") govern your journey through our website at eHealthReport. We've tried to make them as painless as possible—kind of like a trip to the dentist where they actually have the good flavors of toothpaste.
         </p>
         <p className="paragraph">
           Our Privacy Policy is also part of this agreement (it's like the sidekick to these Terms' superhero). Together they explain how we'll treat your information with the care it deserves.
         </p>
         <p className="paragraph">
-          By using our service, you're nodding along to these terms. If you find yourself vigorously shaking your head instead, that's okay! Just please don't use our service, and maybe drop us a line at <a href="mailto:contact@ecase.site" className="link">contact@ecase.site</a> so we can see if there's another path forward. We're reasonable folks, we promise.
+          By using our service, you're nodding along to these terms. If you find yourself vigorously shaking your head instead, that's okay! Just please don't use our service, and maybe drop us a line at <a href="mailto:contact@ehealthreport" className="link">contact@ehealthreport</a> so we can see if there's another path forward. We're reasonable folks, we promise.
         </p>
       </section>
 
@@ -33,10 +33,10 @@ const TermsPage = () => {
       <section className="policy-section">
         <h2 className="section-heading">2. Keeping in Touch</h2>
         <p className="paragraph">
-          When you use eCase.site, you're agreeing to receive newsletters and updates from us. Think of them less as "marketing materials" and more like "friendly letters from that pen pal who's really excited about document conversion."
+          When you use eHealthReport, you're agreeing to receive newsletters and updates from us. Think of them less as "marketing materials" and more like "friendly letters from that pen pal who's really excited about document conversion."
         </p>
         <p className="paragraph">
-          Not your cup of tea? No problem! You can unsubscribe faster than you can say "no more emails please" by clicking the unsubscribe link or emailing <a href="mailto:contact@ecase.site" className="link">contact@ecase.site</a>.
+          Not your cup of tea? No problem! You can unsubscribe faster than you can say "no more emails please" by clicking the unsubscribe link or emailing <a href="mailto:contact@ehealthreport" className="link">contact@ehealthreport</a>.
         </p>
       </section>
 
@@ -73,7 +73,7 @@ const TermsPage = () => {
         <ul className="list">
           <li className="list-item">You'll be billed in advance on a recurring basis</li>
           <li className="list-item">Your subscription will automatically renew (like magic, except you get charged)</li>
-          <li className="list-item">You can cancel anytime through your account or by emailing <a href="mailto:contact@ecase.site" className="link">contact@ecase.site</a></li>
+          <li className="list-item">You can cancel anytime through your account or by emailing <a href="mailto:contact@ehealthreport" className="link">contact@ehealthreport</a></li>
         </ul>
         <p className="paragraph">
           We need valid payment information to process your subscription. If your payment method fails, we may have to terminate your access to the service. Not to be dramatic, but please keep your payment info up to date!
@@ -84,7 +84,7 @@ const TermsPage = () => {
       <section className="policy-section">
         <h2 className="section-heading">5. Free Trials: Try Before You Buy</h2>
         <p className="paragraph">
-          eCase.site occasionally on its sole discretion offer free trials of our subscription services to some of our users. It's like test-driving a car, but with fewer salespeople hovering nearby.
+          eHealthReport occasionally on its sole discretion offer free trials of our subscription services to some of our users. It's like test-driving a car, but with fewer salespeople hovering nearby.
         </p>
         <p className="paragraph">
           Important notes about free trials:
@@ -130,7 +130,7 @@ const TermsPage = () => {
           <li className="list-item">Sharing it doesn't violate anyone else's rights</li>
         </ul>
         <p className="paragraph highlight">
-          Documents you upload to eCase.site remain on our servers for only 24 hours before being automatically deleted. We're not hoarders—we don't keep your files longer than necessary, and we don't share them with third parties.
+          Documents you upload to eHealthReport remain on our servers for only 24 hours before being automatically deleted. We're not hoarders—we don't keep your files longer than necessary, and we don't share them with third parties.
         </p>
       </section>
 
@@ -166,7 +166,7 @@ const TermsPage = () => {
       <section className="policy-section">
         <h2 className="section-heading">10. Age Restrictions: Adults Only, Please</h2>
         <p className="paragraph">
-          Our service is only for individuals who are at least 18 years old. By using eCase.site, you're confirming that you're an adult with the legal capacity to enter into this agreement. If you're under 18, we're sorry, but you'll need to wait to use our service.
+          Our service is only for individuals who are at least 18 years old. By using eHealthReport, you're confirming that you're an adult with the legal capacity to enter into this agreement. If you're under 18, we're sorry, but you'll need to wait to use our service.
         </p>
       </section>
 
@@ -191,7 +191,7 @@ const TermsPage = () => {
       <section className="policy-section">
         <h2 className="section-heading">12. Our Intellectual Property: We Made This!</h2>
         <p className="paragraph">
-          eCase.site and all its original content remain our exclusive property. Our service is protected by copyright, trademark, and other laws. Please don't use our trademarks without our written permission—we're rather attached to them.
+          eHealthReport and all its original content remain our exclusive property. Our service is protected by copyright, trademark, and other laws. Please don't use our trademarks without our written permission—we're rather attached to them.
         </p>
       </section>
 
@@ -199,7 +199,7 @@ const TermsPage = () => {
       <section className="policy-section">
         <h2 className="section-heading">13. Copyright Issues: Respecting Creative Work</h2>
         <p className="paragraph">
-          We respect intellectual property rights and expect you to do the same. If you believe someone has infringed on your copyright through our service, please email us at <a href="mailto:contact@ecase.site" className="link">contact@ecase.site</a> with "Copyright Infringement" in the subject line.
+          We respect intellectual property rights and expect you to do the same. If you believe someone has infringed on your copyright through our service, please email us at <a href="mailto:contact@ehealthreport" className="link">contact@ehealthreport</a> with "Copyright Infringement" in the subject line.
         </p>
         <p className="paragraph">
           Include detailed information about the alleged infringement as outlined in our DMCA procedure below.
@@ -221,7 +221,7 @@ const TermsPage = () => {
           <li className="list-item">A statement, under penalty of perjury, that your information is accurate and you're authorized to act on the copyright owner's behalf</li>
         </ul>
         <p className="paragraph">
-          Contact our Copyright Agent at <a href="mailto:contact@ecase.site" className="link">contact@ecase.site</a>.
+          Contact our Copyright Agent at <a href="mailto:contact@ehealthreport" className="link">contact@ehealthreport</a>.
         </p>
       </section>
 
@@ -339,7 +339,7 @@ const TermsPage = () => {
           Have questions, comments, or technical support needs? We'd love to hear from you!
         </p>
         <p className="paragraph">
-          Email us at: <a href="mailto:contact@ecase.site" className="link">contact@ecase.site</a>
+          Email us at: <a href="mailto:contact@ehealthreport" className="link">contact@ehealthreport</a>
         </p>
         <p className="paragraph final-note">
           Thanks for reading all the way to the end! You deserve a virtual high-five! ✋

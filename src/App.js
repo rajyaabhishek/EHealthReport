@@ -493,7 +493,7 @@ const handleSubscriptionSuccess = useCallback(async (plan, billingCycle) => {
           <div className="header-content">
             <div className="logo-title-container" onClick={handleLogoClick} >
               <img src={process.env.PUBLIC_URL + '/gg.png'} alt="Logo"/>
-              <h1 className="app-logo">eCase<span style={{fontSize: '0.6em',fontWeight: '410'}}>.site</span></h1>
+              <h1 className="app-logo">eHealthReport</h1>   
             </div>
          
             <div className="auth-buttons">
@@ -578,6 +578,13 @@ const handleSubscriptionSuccess = useCallback(async (plan, billingCycle) => {
             <button className="footer-link" onClick={() => setActivePage('terms')}>Terms</button>
             <span className="separator">|</span>
             <button className="footer-link" onClick={() => setActivePage('privacy')}>Privacy</button>
+            <span className="separator">|</span>
+            <button
+  className="footer-link"
+  onClick={() => window.open('https://medium.com/@ehealthreport.site', '_blank')}
+>
+  Blog
+</button>
           </div>
         </div>
       </footer>

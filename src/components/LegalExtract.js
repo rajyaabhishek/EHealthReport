@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import './LegalExtract.css';
 import { showErrorAlert, showSuccessAlert } from '../utils/alertUtils';
+import OpenAIService from '../services/openaiService';
 
 const LegalExtract = () => {
   const [pdfFile, setPdfFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [extractedData, setExtractedData] = useState(null);
+
+  // Create an instance of OpenAIService
+  const openaiService = new OpenAIService();
 
   const handlePdfUpload = (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -22,95 +26,26 @@ const LegalExtract = () => {
     setLoading(true);
 
     try {
-      // In a real implementation, you would call your API here
-      // For now, let's simulate an API call with setTimeout
-      setTimeout(() => {
-        // Mock response data
-        const mockExtractedData = {
-          caseBasicDetails: {
-            district: '1',
-            establishment: 'DLNE01~1',
-            caseType: 'civil',
-            reliefSought: '1',
-            caseTypeSpecific: '73~5012',
-            subCourt: '26~2',
-            subDistCourt: '1',
-            subEstablishment: 'DLNE01~1',
-            subCaseType: '30',
-            caseNumber: '68',
-            caseYear: '2002',
-            decisionDate: '10-10-2021',
-            appliedDate: '10-10-2021',
-            receivedDate: '10-10-2023',
-            partyName: 'goodgame',
-            partyMobile: '9873777831',
-          },
-          appellantDetails: {
-            type: 'appellant',
-            salutation: '1',
-            name: 'moku',
-            gender: 'male',
-            fatherFlag: '1',
-            fatherName: 'buzo',
-            dob: '10-10-2013',
-            age: '18',
-            caste: '2',
-            extraCount: '0',
-            email: 'test@email.com',
-            mobile: '9876543210',
-            occupation: 'Engineer',
-            address: '123 Test Street',
-            pincode: '110001',
-            state: '7',
-            district: '7~6~95',
-          },
-          respondentDetails: {
-            type: 'respondent',
-            salutation: '1',
-            name: 'goku',
-            gender: 'female',
-            fatherFlag: '1',
-            fatherName: 'suzo',
-            dob: '10-11-2015',
-            age: '18',
-            caste: '2',
-            extraCount: '0',
-            email: 'test2@email.com',
-            mobile: '9876543210',
-            occupation: 'Mngineer',
-            address: 'go 43 Street',
-            pincode: '110008',
-            state: '7',
-            district: '7~6~95',
-          },
-          factsDetails: {
-            factDate: '18-11-2003',
-            factTime: '14:30',
-            facts: 'This is a sample fact.'
-          },
-          caseDetails: {
-            causeOfAction: 'Sample cause of action details here',
-            offenseDate: '10-02-2024',
-            subject: 'Sample case subject',
-            reliefOffense: 'Sample relief sought details',
-            amount: '50000',
-            registeredPlace: true,
-            stateId: '7',
-            districtCode: '7~6~95',
-            acts: [
-              { act: 'INDIAN PENAL CODE', section: '420' },
-              { act: 'Indian Evidence Act', section: '156' },
-              { act: 'Criminal Procedure (Identification) Act', section: '302' }
-            ]
-          }
-        };
-
-        setExtractedData(mockExtractedData);
-        setLoading(false);
-      }, 2000);
+      // Call the actual AI service to extract legal information
+      const results = await openaiService.processLegalDocument(pdfFile, 'extract');
+      
+      if (results.extractedData) {
+        setExtractedData(results.extractedData);
+      } else {
+        showErrorAlert('No legal information could be extracted from this document.');
+      }
+      
+      setLoading(false);
     } catch (error) {
       console.error("Error extracting data:", error);
-      showErrorAlert('An error occurred while processing the document. Please try again.');
+      
+      // Check if it's an API key error
+      if (error.message && error.message.includes('API key')) {
+        showErrorAlert('AI service configuration error. Please check that the API key is properly set.');
+      } else {
+        showErrorAlert(`An error occurred while processing the document: ${error.message || 'Unknown error'}. Please try again.`);
+      }
+      
       setLoading(false);
     }
   };
